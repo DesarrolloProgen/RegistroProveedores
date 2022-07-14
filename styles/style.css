@@ -1,0 +1,26 @@
+.border{
+    border: 3px solid #99a4af!important;
+  }
+  .g-3{
+    padding-bottom: 7px;
+  }
+  .custom-file-label{
+    font-size: smaller;
+    font-family: Helvetica;
+  }
+  .col-form-label{
+    font-family: Helvetica;
+  }
+  body{
+    font-family: Helvetica;
+    font-size: smaller;
+  }
+  input.form-control{
+  font-size: smaller
+  }
+  option{
+    font-size: smaller;
+  }
+  select.form-control{
+    font-size: smaller;
+  }

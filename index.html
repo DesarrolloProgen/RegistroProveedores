@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="./styles/style.css">
+  <title>Registro Proveedores</title>
+</head>
+<body style="overflow-x: hidden;">
+<form id="formulario">
+
+  <!--Leyenda y cuadro datos Proveedor-->
+
+  <fieldset class="border p-2">
+      <legend  class="w-auto" style="margin-left: 50px; font-size: large;">Datos Proveedor</legend>
+      
+      <!--Fila Tipo Registro -->
+      <div class="row g-3 align-items-center">
+        <label for="t_registro" class="col-sm-2 col-form-label offset-md-1">Tipo de registro</label>
+          <div class="col-sm-4">  
+            <select id="t_registro" name="t_registro" class="form-control">
+              <option disabled selected>Selecciona una opción</option>
+              <option>Inscripción</option>
+              <option>Actualización</option>
+            </select>
+          </div>
+      </div>
+
+      <!--Fila Tipo Empresa -->
+      <div class="row g-3 align-items-center">
+        <label for="t_empresa" class="col-sm-2 col-form-label offset-md-1">Tipo de Empresa</label>
+          <div class="col-sm-4">  
+            <select id="t_empresa" name="t_empresa" class="form-control" onchange="tipopersonaOnchange(this)">
+              <option disabled selected>Selecciona una opción</option>
+              <option>Persona Natural</option>
+              <option>Persona Jurídica</option>
+            </select>
+          </div>
+      </div>
+
+      <!--Fila Tipo Proveedor -->
+      <div class="row g-3 align-items-center">
+        <label for="t_proveedor" class="col-sm-2 col-form-label offset-md-1">Tipo de Proveedor</label>
+          <div class="col-sm-4">  
+            <select id="t_proveedor" name="t_proveedor" class="form-control" onchange="tipoproveedorOnchange(this)">
+              <option disabled selected>Selecciona una opción</option>
+              <option>Proveedor Nivel 1</option>
+              <option>Proveedor Nivel 2</option>
+              <option>Proveedor Exterior</option>
+            </select>
+          </div>
+      </div>
+
+      <!-- Fila para tipo y numero de identificacion-->
+    <div id="datos" style="display:none">
+      <div class="row g-3 align-items-center">
+          <!--Tipo de indentificación-->
+            <label for="t_identificacion" class="col-sm-2 col-form-label offset-md-1">Tipo de identificación</label>
+            <div class="col-sm-2">
+          <select id="t_identificacion" name="t_identificacion" class="form-control " onchange="tipoindentificacionOnchange(this)">
+              <option disabled selected>Selecciona una opción</option>
+              <option>CC</option>
+              <option>NIT</option>
+            </select>
+          </div>
+          <!--Cedula-->
+            <div id="cedula" class="form-row col-md-6 " style="display:none;">
+              <label for="cc" class="col-sm-1 col-form-label offset-md-1">Cédula:</label>
+              <input id="cc" name="cc" class="form-control col-sm-6 offset-sm-1" type="text" placeholder="Ingrese su número de Cedula" requerid>
+            </div>
+
+        <!-- NIT -->
+          <div id="nit" class="form-row col-md-6 " style="display:none;">
+              <label for="numeroNIT" class="col-sm-1 col-form-label offset-md-1">NIT:</label>
+              <input id="numeroNIT" name="numeroNIT" class="form-control col-sm-4" type="text" placeholder="Ingrese su NIT" requerid>
+              <label for="codigoNIT" class="col-form-label">DV</label>
+              <input id="codigoNIT" name="codigoNIT" class="form-control col-sm-1" type="text" placeholder="Ingrese su digito de verificación" requerid>
+          </div> 
+        </div>
+
+        <!-- Fila Nombre -->
+
+        <div class="row g-3 align-items-center">
+          <label for="nombreUsuario" class="col-sm-2 col-form-label offset-md-1" style="margin-right: 12px">Nombre de Proveedor:</label>
+          <input id="nombreUsuario" name="nombreUsuario" class="form-control col-sm-4" type="text" placeholder="Ingrese su nombre proveedor" requerid>
+        </div>
+
+      </div>
+        
+  </fieldset>
+
+  <!-- Seccion Tipo proveedor-->
+
+  <fieldset id="contacto" class="border p-2" style="display: none;">
+    <legend  class="w-auto" style="margin-left: 50px; font-size: large;">Datos de Contacto </legend>
+
+      <div id="contacto_nivel_1_2" style="display:none;">
+        
+        <!-- Nombre de Contacto-->
+
+        <div class="row g-3 align-items-center">
+            <label for="nombreContacto1" class="col-sm-2 col-form-label offset-md-1" style="margin-right: 12px">Nombre de Contacto:</label>
+            <input id="nombreContacto1" name="nombreContacto1" class="form-control col-sm-4" type="text" placeholder="Ingrese un nombre de contacto" requerid>
+          </div>
+        
+        <!-- telefono de Contacto-->
+
+          <div class="row g-3 align-items-center">
+            <label for="telefonoContacto1" class="col-sm-2 col-form-label offset-md-1" style="margin-right: 12px">Telefono:</label>
+            <input id="telefonoContacto1" name="telefonoContacto1" class="form-control col-sm-4" type="text" placeholder="Ingrese un telefono de contacto" requerid>
+          </div>
+
+          <!-- Email de Contacto-->
+
+          <div class="row g-3 align-items-center">
+            <label for="correoContacto1" class="col-sm-2 col-form-label offset-md-1" style="margin-right: 12px">Email:</label>
+            <input id="correoContacto1" name="correoContacto1" class="form-control col-sm-4" type="text" placeholder="Ingrese un correo de contacto" requerid>
+          </div>
+        <!-- Plazo de pago -->
+        <div class="row g-3 align-items-center">
+          <label for="plazoPago1" class="col-sm-2 col-form-label offset-md-1">Plazo de Pago:</label>
+            <div class="col-sm-4">  
+              <select id="plazoPago1" name="plazoPago1" class="form-control">
+                <option disabled selected>Selecciona una opción</option>
+                <option>Contado</option>
+                <option>8 Días</option>
+                <option>15 Días</option>
+                <option>30 Días</option>
+                <option>45 Días</option>
+                <option>60 Días</option>
+                <option>90 Días</option>
+                <option>120 Días</option>
+              </select>
+            </div>
+        </div>
+      </div>
+
+
+      <div id="exterior" style="display:none;">
+        <!-- Razón Social -->
+        <div class="row g-3 align-items-center">
+          <label for="razon_social" class="col-sm-2 col-form-label offset-md-1" style="margin-right: 12px">Razon Social:</label>
+          <input id="razon_social" name="razon_social" class="form-control col-sm-4" type="text" placeholder="Ingrese su Razón Social" requerid>
+        </div>
+
+        <!-- Direccion Completa-->
+        <div class="row g-3 align-items-center">
+          <label for="direccion" class="col-sm-2 col-form-label offset-md-1" style="margin-right: 12px">Dirección:</label>
+          <input id="direccion" name="direccion" class="form-control col-sm-4" type="text" placeholder="Ingrese su dirección completa" requerid>
+        </div>
+
+        <!-- Ciudad y país-->
+
+        <div class="row g-3 align-items-center">
+            <!--Tipo de indentificación-->
+          <label for="ciudad" class="col-sm-2 col-form-label offset-md-1">Ciudad:</label>
+            <div class="col-sm-2">
+              <input id="ciudad" name="ciudad" class="form-control" type="text" placeholder="Ingrese su ciudad" requerid>
+            </div>
+            <!--Cedula-->
+              <div class="form-row col-md-6">
+                <label for="pais" class="col-sm-1 col-form-label offset-md-1">País:</label>
+                <input id="pais" name="pais" class="form-control col-sm-6 offset-sm-1" type="text" placeholder="Ingrese su País" requerid>
+              </div> 
+          </div>
+        <!-- Nombre de Contacto-->
+
+        <div class="row g-3 align-items-center">
+            <label for="nombreContacto" class="col-sm-2 col-form-label offset-md-1" style="margin-right: 12px">Nombre de Contacto:</label>
+            <input id="nombreContacto" name="nombreContacto" class="form-control col-sm-4" type="text" placeholder="Ingrese un nombre de contacto" requerid>
+          </div>
+        
+        <!-- telefono de Contacto-->
+
+          <div class="row g-3 align-items-center">
+            <label for="telefonoContacto" class="col-sm-2 col-form-label offset-md-1" style="margin-right: 12px">Telefono:</label>
+            <input id="telefonoContacto" name="telefonoContacto" class="form-control col-sm-4" type="text" placeholder="Ingrese un telefono de contacto" requerid>
+          </div>
+
+          <!-- Email de Contacto-->
+
+          <div class="row g-3 align-items-center">
+            <label for="correoContacto" class="col-sm-2 col-form-label offset-md-1" style="margin-right: 12px">Email:</label>
+            <input id="correoContacto" name="correoContacto" class="form-control col-sm-4" type="text" placeholder="Ingrese un correo de contacto" requerid>
+          </div>
+
+      <!-- Cargo -->
+        <div class="row g-3 align-items-center">
+          <label for="cargo" class="col-sm-2 col-form-label offset-md-1" style="margin-right: 12px">Cargo:</label>
+          <input id="cargo" name="cargo" class="form-control col-sm-4" type="text" placeholder="Ingrese su cargo" requerid>
+        </div>
+
+      <!-- Moneda -->
+
+        <div class="row g-3 align-items-center">
+          <label for="moneda" class="col-sm-2 col-form-label offset-md-1">Moneda:</label>
+            <div class="col-sm-4">  
+              <select id="moneda" name="moneda" class="form-control">
+                <option disabled selected>Selecciona una opción</option>
+                <option>Dolares</option>
+                <option>Euros</option>
+                <option>Pesos Colombianos</option>
+              </select>
+            </div>
+        </div>
+
+
+      <!-- Fila Plazo de Pago -->
+
+          <div class="row g-3 align-items-center">
+          <label for="plazoPago" class="col-sm-2 col-form-label offset-md-1">Plazo de Pago:</label>
+            <div class="col-sm-4">  
+              <select id="plazoPago" name="plazoPago" class="form-control">
+                <option disabled selected>Selecciona una opción</option>
+                <option>Contado</option>
+                <option>8 Días</option>
+                <option>15 Días</option>
+                <option>30 Días</option>
+                <option>45 Días</option>
+                <option>60 Días</option>
+                <option>90 Días</option>
+                <option>120 Días</option>
+              </select>
+            </div>
+        </div>
+      
+      <!-- Fila Tipo de actividad economica -->
+        <div class="row g-3 align-items-center">
+          <label for="tipoactividad" class="col-sm-2 col-form-label offset-md-1">Tipo de Actividad Económica:</label>
+            <div class="col-sm-4">  
+              <select id="tipoactividad" name="tipoactividad" class="form-control">
+                <option disabled selected>Selecciona una opción</option>
+                <option>Productor</option>
+                <option>Comercializador</option>
+                <option>Servicios</option>
+              </select>
+            </div>
+        </div>
+      </div>
+  </fieldset>
+  <!--Seccion Cargue de Documentos-->
+
+  <fieldset id="archivos" class="border p-2" style="display: none;">
+    <legend  class="w-auto" style="margin-left: 50px; font-size: large;">Cargue de Archivos</legend>
+
+    <div id="Persona_Natural" class="container offset-md-1" style="display:none;">
+
+      <!--Subir formato de registro debidamente firmado-->
+      <div class="row g-3" >
+        <div class="col-md-8 ">
+          <div class="custom-file">
+            <input type="file" name="Formulariojuridico" class="custom-file-input" id="customFile" onchange="saveFileNatural(this , 'formato1')">
+            <label class="custom-file-label" for="customFile">Formulario de registro de Proveedores debidamente firmado</label>
+          </div>
+        </div>
+        <div id="cargandoformularioNatural" class="col-md-2" style="display:none;">
+          <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px">
+        </div>
+      </div>
+
+      <!--Subir archivo de cedula de Ciudadania-->
+      <div class="row g-3" >
+        <div class="col-md-8 ">
+          <div class="custom-file">
+            <input type="file" name="copiacedula" class="custom-file-input" id="customFile" onchange="saveFileNatural(this,  'formato2')">
+            <label class="custom-file-label" for="customFile">Copia de la Cédula de Ciudadanía</label>
+          </div>
+        </div>
+        <div id="cargandocedulaNatural" class="col-md-2" style="display:none;">
+          <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px">
+        </div>
+      </div>
+
+      <!--Subir RUT-->
+      <div class="row g-3" >
+        <div class="col-md-8 ">
+          <div class="custom-file">
+            <input type="file" name="copiaRut" class="custom-file-input" id="customFile" onchange="saveFileNatural(this,  'formato3')">
+            <label class="custom-file-label" for="customFile">Copia de RUT actualizado en sus responsabilidades tributarias impreso durante el último año.</label>
+          </div>
+        </div>
+        <div id="cargandoRutNatural" class="col-md-2" style="display:none;">
+          <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px">
+        </div>
+      </div>
+
+      <!-- subirCertificación Bancaria no mayor a 30 días.-->
+      <div class="row g-3" >
+        <div class="col-md-8 ">
+          <div class="custom-file">
+            <input type="file" name="certBancaria" class="custom-file-input" id="customFile" onchange="saveFileNatural(this,  'formato4')">
+            <label class="custom-file-label" for="customFile">Certificación Bancaria no mayor a 30 días.</label>
+          </div>
+        </div>
+        <div id="cargandoCbancariaNatural" class="col-md-2" style="display:none;">
+          <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px">
+        </div>
+      </div>
+
+      <!-- Copia de certificaciones que posea BASC, ISO, etc.-->
+      <div class="row g-3" >
+        <div class="col-md-8 ">
+          <div class="custom-file">
+            <input type="file" name="certBancaria" class="custom-file-input" id="customFile" onchange="saveFileNatural(this, 'formato5')">
+            <label class="custom-file-label" for="customFile">Copia de certificaciones que posea BASC, ISO, etc.</label>
+          </div>
+        </div>
+        <div id="cargandoCertificacionesNatural" class="col-md-2" style="display:none;">
+          <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px">
+        </div>
+      </div>
+    </div>
+
+    <div id="Persona_Juridica" class="container offset-md-1" style="display:none;">
+
+      <!--Subir formato de registro debidamente firmado-->
+      <div class="row g-3" >
+        <div class="col-md-8 ">
+          <div class="custom-file">
+            <input type="file" name="Formulariojuridico" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this, 'formato1')">
+            <label class="custom-file-label" for="customFile">Formulario de registro de Proveedores debidamente firmado</label>
+          </div>
+        </div>
+        <div id="cargandoformatoJuridica" class="col-md-2" style="display:none;">
+          <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px">
+        </div>
+      </div>
+
+      <!--Subir archivo de Certificado Existencia y Representación Legal no mayor a 30 días.-->
+      <div class="row g-3" >
+        <div class="col-md-8 ">
+          <div class="custom-file">
+            <input type="file" name="certificadoExistencia" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this, 'formato2')">
+            <label class="custom-file-label" for="customFile">Certificado Existencia y Representación Legal no mayor a 30 días.</label>
+          </div>
+        </div>
+        <div id="cargandocertificadoJuridica" class="col-md-2" style="display:none;">
+          <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px">
+        </div>
+      </div>
+
+      <!--Subir cédula del Representante legal.-->
+      <div class="row g-3" >
+        <div class="col-md-8 ">
+          <div class="custom-file">
+            <input type="file" name="representanteLegal" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this, 'formato3')">
+            <label class="custom-file-label" for="customFile">Copia de cédula del Representante legal.</label>
+          </div>
+        </div>
+        <div id="cargandocedulaJuridica" class="col-md-2" style="display:none;">
+          <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px">
+        </div>
+      </div>
+
+      <!-- subir Copia de RUT no mayor a 30 días.-->
+      <div class="row g-3" >
+        <div class="col-md-8 ">
+          <div class="custom-file">
+            <input type="file" name="RUT" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this, 'formato4')">
+            <label class="custom-file-label" for="customFile">Copia de RUT actualizado en sus responsabilidades tributarias impreso durante el último año.</label>
+          </div>
+        </div>
+        <div id="cargandorutJuridica" class="col-md-2" style="display:none;">
+          <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px">
+        </div>
+      </div>
+
+      <!-- subir Copia de RUT no mayor a 30 días.-->
+      <div class="row g-3" >
+        <div class="col-md-8 ">
+          <div class="custom-file">
+            <input type="file" name="certBancaria" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this, 'formato5')">
+            <label class="custom-file-label" for="customFile">Certificación Bancaria no mayor a 30 días.</label>
+          </div>
+        </div>
+        <div id="cargandoCbancariaJuridica" class="col-md-2" style="display:none;">
+          <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px">
+        </div>
+      </div>
+
+      <!-- Copia de certificaciones que posea BASC, ISO, etc.-->
+      <div class="row g-3" >
+        <div class="col-md-8 ">
+          <div class="custom-file">
+            <input type="file" name="certBASC" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this, 'formato6')">
+            <label class="custom-file-label" for="customFile">Copia de certificaciones que posea BASC, ISO, etc.</label>
+          </div>
+        </div>
+        <div id="cargandocertificacionesJuridica" class="col-md-2" style="display:none;">
+          <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px">
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+ <fieldset class="border p-2">
+    <legend  class="w-auto" style="margin-left: 50px; font-size: large;">Contacto Progen</legend>
+  <div class="row g-3 align-items-center">
+    <label for="nombreContactoProgen" class="col-sm-2 col-form-label offset-md-1" style="margin-right: 12px">Nombre Contacto:</label>
+    <input id="nombreContactoProgen" name="nombreContactoProgen" class="form-control col-sm-4" type="text" placeholder="Nombre de contacto de la persona de PROGEN" requerid>
+  </div>
+
+  <div class="row g-3 align-items-center">
+    <label for="emailContacto" class="col-sm-2 col-form-label offset-md-1" style="margin-right: 12px">Email Contacto:</label>
+    <input id="emailContacto" name="emailContacto" class="form-control col-sm-4" type="text" placeholder="Email de contacto de la persona de PROGEN" requerid>
+  </div>
+  <div class="row">
+      <div class="col-md-8 offset-md-1">
+        <input style="margin-top: 3px; font-size: smaller;" id="boton" type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#exampleModal"
+          value="Enviar Registro" onclick="save(this.parentNode)">
+      </div>
+    </div>
+ </fieldset>
+
+
+  <!--Modal para notificaciones-->
+
+   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header" id="headermensaje">
+            <h5 class="modal-title" id="titulomensaje">Realizado</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div id="mensaje" class="modal-body">
+            
+          </div>
+          <div class="modal-footer">
+            <button type="sumbit" class="btn btn-success" data-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"></script>
+    <script src="./js/validaciones.js"></script>
+    <script src="./js/formato.js"></script>
+    <script src="./js/onchange.js"></script>
+    <script src="./js/main.js"></script>
+  <script>
+
+      function mostrarCargueJuridica(respuesta){
+        if(respuesta == "Done formato1"){
+          document.getElementById('cargandoformatoJuridica').innerHTML='<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
+        }
+        if(respuesta == "Done formato2"){
+          document.getElementById('cargandocertificadoJuridica').innerHTML='<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
+        }
+        if(respuesta == "Done formato3"){
+          document.getElementById('cargandocedulaJuridica').innerHTML='<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
+        }
+        if(respuesta == "Done formato4"){
+          document.getElementById('cargandorutJuridica').innerHTML='<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
+        }
+        if(respuesta == "Done formato5"){
+          document.getElementById('cargandoCbancariaJuridica').innerHTML='<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
+        }
+        if(respuesta == "Done formato6"){
+          document.getElementById('cargandocertificacionesJuridica').innerHTML='<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
+        }
+      }
+    
+    function mostrarCargueNatural(respuesta){
+        if(respuesta == "Done formato1"){
+          document.getElementById('cargandoformularioNatural').innerHTML='<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
+        }
+        if(respuesta == "Done formato2"){
+          document.getElementById('cargandocedulaNatural').innerHTML='<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
+        }
+        if(respuesta == "Done formato3"){
+          document.getElementById('cargandoRutNatural').innerHTML='<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
+        }
+        if(respuesta == "Done formato4"){
+          document.getElementById('cargandoCbancariaNatural').innerHTML='<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
+        }
+        if(respuesta == "Done formato5"){
+          document.getElementById('cargandoCertificacionesNatural').innerHTML='<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
+        }
+      }
+  </script>
+</body>
+</html>
