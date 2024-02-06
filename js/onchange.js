@@ -11,10 +11,30 @@
         if( selected.value == "Persona Natural"){
             divNatural.style.display = "";
             divJuridica.style.display = "none";
+            document.getElementsByName("FormularioNatural")[0].required = true;
+            document.getElementsByName("copiacedula")[0].required = true;
+            document.getElementsByName("copiaRut")[0].required = true;
+            document.getElementsByName("certBancariaNatural")[0].required = true;
+            document.getElementsByName("Formulariojuridico")[0].required = false;
+            document.getElementsByName("certificadoExistencia")[0].required = false;
+            document.getElementsByName("representanteLegal")[0].required = false;
+            document.getElementsByName("RUT")[0].required = false;
+            document.getElementsByName("certBancariaJuridica")[0].required = false;
+
         }
         else if(selected.value == "Persona Jurídica"){
             divNatural.style.display = "none";
             divJuridica.style.display = "";
+            document.getElementsByName("Formulariojuridico")[0].required = true;
+            document.getElementsByName("certificadoExistencia")[0].required = true;
+            document.getElementsByName("representanteLegal")[0].required = true;
+            document.getElementsByName("RUT")[0].required = true;
+            document.getElementsByName("certBancariaJuridica")[0].required = true;
+            document.getElementsByName("FormularioNatural")[0].required = false;
+            document.getElementsByName("copiacedula")[0].required = false;
+            document.getElementsByName("copiaRut")[0].required = false;
+            document.getElementsByName("certBancariaNatural")[0].required = false;
+
         }
     }
 /*                            DEPENDIENTO DEL TIPO DE IDENTIFICACION                            */
@@ -43,16 +63,32 @@
         divdatos = document.getElementById("datos");
         if(selected.value == "Proveedor Exterior"){
           divcontacto.style.display = "";
-          divnivel.style.display = "none";
           divexterior.style.display = "";
+          divnivel.style.display = "none";
           divarchivos.style.display = "none";
           divdatos.style.display = "none";
+          document.getElementsByName("Formulariojuridico")[0].required = false;
+            document.getElementsByName("certificadoExistencia")[0].required = false;
+            document.getElementsByName("representanteLegal")[0].required = false;
+            document.getElementsByName("RUT")[0].required = false;
+            document.getElementsByName("certBancariaJuridica")[0].required = false;
+            document.getElementsByName("FormularioNatural")[0].required = false;
+            document.getElementsByName("copiacedula")[0].required = false;
+            document.getElementsByName("copiaRut")[0].required = false;
+            document.getElementsByName("certBancariaNatural")[0].required = false;
         }
-        else{
+        else if(selected.value == "Proveedor Nivel 1"){
           divcontacto.style.display = "";
           divnivel.style.display = "";
-          divexterior.style.display = "none";
           divarchivos.style.display = "";
           divdatos.style.display = "";
+
+          divexterior.style.display = "none";
+        } else{
+            divcontacto.style.display = "";
+          divnivel.style.display = "";
+          divarchivos.style.display = "";
+          divdatos.style.display = "";
+          divexterior.style.display = "none";
         }
       }

@@ -1,22 +1,18 @@
-window.addEventListener('load', function () {
-    
-    const form = document.forms[0];
+
     var now = new Date();
     var fecha = now.getDate() + '-' + (now.getMonth() + 1) + '-' + now.getFullYear();
     var minutos = now.getMinutes()
     if(minutos<10) minutos="0"+minutos;
     var hora = now.getHours() + ':' + minutos;
     var fechayHora = fecha + ' ' + hora;
-    const url = "";
+    const url = "https://prod-27.brazilsouth.logic.azure.com:443/workflows/50bd776c30de43d4a4abfbc497c59763/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=tGPvC-XO_cwP3ZQKWgnqCnTptzNMtLMDmCbLuoaHcBM";
     var data = {};
 /*-------------------------------------------------------------------------------------------- */
 /*                                  Configurar la Petición                                     */
 /*-------------------------------------------------------------------------------------------- */ 
-    form.addEventListener('submit' , function (event) {
-        event.preventDefault();
-        console.log(validaciones());
-        if(!validaciones()) return false;
+    function submitForm(){
         console.log("Se comienza a crear la data");
+        console.log(tipo_identificacion.value);
         /* Creacion de Data para Proveedor Nivel 1 y 2*/
         if (tipo_identificacion.value == "CC"){
             var data = {
@@ -26,7 +22,7 @@ window.addEventListener('load', function () {
               tipo_proveedor: tipo_proveedor.value,
               tipo_identificacion: tipo_identificacion.value,
               cedula: cedula.value,
-              nombre_usuario: nombre_usuario.value,
+              nombre_proveedor: nombre_usuario.value,
               nombre_contacto_nivel: nombre_contacto_nivel.value,
               telefono_contacto_nivel: telefono_contacto_nivel.value,
               email_contacto_nivel: email_contacto_nivel.value,
@@ -36,8 +32,7 @@ window.addEventListener('load', function () {
               natural: natural,
               juridica: juridica
             }
-          }
-          if (tipo_identificacion.value == "NIT"){
+          } else if (tipo_identificacion.value == "NIT"){
             var data = {
               fecha: fechayHora,
               tipo_registro: tipo_registro.value,
@@ -45,7 +40,7 @@ window.addEventListener('load', function () {
               tipo_proveedor: tipo_proveedor.value,
               tipo_identificacion: tipo_identificacion.value,
               nit: nit,
-              nombre_usuario: nombre_usuario.value,
+              nombre_proveedor: nombre_usuario.value,
               nombre_contacto_nivel: nombre_contacto_nivel.value,
               telefono_contacto_nivel: telefono_contacto_nivel.value,
               email_contacto_nivel: email_contacto_nivel.value,
@@ -80,7 +75,8 @@ window.addEventListener('load', function () {
                     email_contactoProgen: email_contactoProgen.value
                 }
             }
-            console.log("Se creo la data:" + data);
+            console.log("Se creo la data:");
+            console.log(data);
             const settings = {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -90,7 +86,7 @@ window.addEventListener('load', function () {
             }
             cargando();
             enviarPeticion(settings);       
-    });
+    };
 /*-------------------------------------------------------------------------------------------- */
 /*                                       Enviar Peticion                                       */
 /*-------------------------------------------------------------------------------------------- */
@@ -121,7 +117,7 @@ window.addEventListener('load', function () {
         document.getElementById('titulomensaje').innerHTML='Cargando';
         document.getElementById('mensaje').innerHTML='<img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="50px" height="50px"><span style="padding-left: 10px">Cargando...</span>';
     }
-});
+
 
 /*-------------------------------------------------------------------------------------------- */
 /*                                  Funciones Adicionales                                      */
@@ -135,7 +131,7 @@ window.addEventListener('load', function () {
         fr.addEventListener("load", function () {
         let contenido = fr.result.split(",");
         const obj = {
-            archivo: f.name,
+            archivo: PersonaJuridica[f.name],
             filename: file.name,
             mimeType: file.type,
             contenido: {
@@ -158,7 +154,7 @@ window.addEventListener('load', function () {
         fr.addEventListener("load", function () {
           let contenido = fr.result.split(",");
           const obj = {
-            archivo: f.name,
+            archivo: PersonaNatural[f.name],
             filename: file.name,
             mimeType: file.type,
             contenido: {

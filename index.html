@@ -4,6 +4,8 @@
 <head>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta charset="UTF-8">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -253,7 +255,7 @@
       <div class="row g-3" >
         <div class="col-md-8 ">
           <div class="custom-file">
-            <input type="file" name="Formulariojuridico" class="custom-file-input" id="customFile" onchange="saveFileNatural(this , 'formato1')">
+            <input type="file" name="FormularioNatural" class="custom-file-input" id="customFile" onchange="saveFileNatural(this)">
             <label class="custom-file-label" for="customFile">Formulario de registro de Proveedores debidamente firmado</label>
           </div>
         </div>
@@ -266,7 +268,7 @@
       <div class="row g-3" >
         <div class="col-md-8 ">
           <div class="custom-file">
-            <input type="file" name="copiacedula" class="custom-file-input" id="customFile" onchange="saveFileNatural(this,  'formato2')">
+            <input type="file" name="copiacedula" class="custom-file-input" id="customFile" onchange="saveFileNatural(this)">
             <label class="custom-file-label" for="customFile">Copia de la Cédula de Ciudadanía</label>
           </div>
         </div>
@@ -279,7 +281,7 @@
       <div class="row g-3" >
         <div class="col-md-8 ">
           <div class="custom-file">
-            <input type="file" name="copiaRut" class="custom-file-input" id="customFile" onchange="saveFileNatural(this,  'formato3')">
+            <input type="file" name="copiaRut" class="custom-file-input" id="customFile" onchange="saveFileNatural(this)">
             <label class="custom-file-label" for="customFile">Copia de RUT actualizado en sus responsabilidades tributarias impreso durante el último año.</label>
           </div>
         </div>
@@ -292,7 +294,7 @@
       <div class="row g-3" >
         <div class="col-md-8 ">
           <div class="custom-file">
-            <input type="file" name="certBancaria" class="custom-file-input" id="customFile" onchange="saveFileNatural(this,  'formato4')">
+            <input type="file" name="certBancariaNatural" class="custom-file-input" id="customFile" onchange="saveFileNatural(this)">
             <label class="custom-file-label" for="customFile">Certificación Bancaria no mayor a 30 días.</label>
           </div>
         </div>
@@ -305,7 +307,7 @@
       <div class="row g-3" >
         <div class="col-md-8 ">
           <div class="custom-file">
-            <input type="file" name="certBancaria" class="custom-file-input" id="customFile" onchange="saveFileNatural(this, 'formato5')">
+            <input type="file" name="certificaciones" class="custom-file-input" id="customFile" onchange="saveFileNatural(this)">
             <label class="custom-file-label" for="customFile">Copia de certificaciones que posea BASC, ISO, etc.</label>
           </div>
         </div>
@@ -321,7 +323,7 @@
       <div class="row g-3" >
         <div class="col-md-8 ">
           <div class="custom-file">
-            <input type="file" name="Formulariojuridico" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this, 'formato1')">
+            <input type="file" name="Formulariojuridico" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this)">
             <label class="custom-file-label" for="customFile">Formulario de registro de Proveedores debidamente firmado</label>
           </div>
         </div>
@@ -334,7 +336,7 @@
       <div class="row g-3" >
         <div class="col-md-8 ">
           <div class="custom-file">
-            <input type="file" name="certificadoExistencia" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this, 'formato2')">
+            <input type="file" name="certificadoExistencia" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this)">
             <label class="custom-file-label" for="customFile">Certificado Existencia y Representación Legal no mayor a 30 días.</label>
           </div>
         </div>
@@ -347,7 +349,7 @@
       <div class="row g-3" >
         <div class="col-md-8 ">
           <div class="custom-file">
-            <input type="file" name="representanteLegal" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this, 'formato3')">
+            <input type="file" name="representanteLegal" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this)">
             <label class="custom-file-label" for="customFile">Copia de cédula del Representante legal.</label>
           </div>
         </div>
@@ -360,7 +362,7 @@
       <div class="row g-3" >
         <div class="col-md-8 ">
           <div class="custom-file">
-            <input type="file" name="RUT" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this, 'formato4')">
+            <input type="file" name="RUT" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this)">
             <label class="custom-file-label" for="customFile">Copia de RUT actualizado en sus responsabilidades tributarias impreso durante el último año.</label>
           </div>
         </div>
@@ -373,7 +375,7 @@
       <div class="row g-3" >
         <div class="col-md-8 ">
           <div class="custom-file">
-            <input type="file" name="certBancaria" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this, 'formato5')">
+            <input type="file" name="certBancariaJuridica" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this)">
             <label class="custom-file-label" for="customFile">Certificación Bancaria no mayor a 30 días.</label>
           </div>
         </div>
@@ -386,7 +388,7 @@
       <div class="row g-3" >
         <div class="col-md-8 ">
           <div class="custom-file">
-            <input type="file" name="certBASC" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this, 'formato6')">
+            <input type="file" name="certBASC" class="custom-file-input" id="customFile" onchange="saveFileJuridica(this)">
             <label class="custom-file-label" for="customFile">Copia de certificaciones que posea BASC, ISO, etc.</label>
           </div>
         </div>
@@ -411,7 +413,7 @@
   <div class="row">
       <div class="col-md-8 offset-md-1">
         <input style="margin-top: 3px; font-size: smaller;" id="boton" type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#exampleModal"
-          value="Enviar Registro" onclick="save(this.parentNode)">
+          value="Enviar Registro" onclick="validaciones()">
       </div>
     </div>
  </fieldset>
@@ -452,10 +454,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
       integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
       crossorigin="anonymous"></script>
-    <script src="./js/validaciones.js"></script>
-    <script src="./js/formato.js"></script>
-    <script src="./js/onchange.js"></script>
-    <script src="./js/main.js"></script>
+      <script src="./js/formato.js"></script>
+      <script src="./js/onchange.js"></script>
+      <script src="./js/main.js"></script>
+      <script src="./js/validaciones.js"></script>
   <script>
 
       function mostrarCargueJuridica(respuesta){
