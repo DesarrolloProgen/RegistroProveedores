@@ -11,8 +11,7 @@
 /*                                  Configurar la Petición                                     */
 /*-------------------------------------------------------------------------------------------- */ 
     function submitForm(){
-        console.log("Se comienza a crear la data");
-        console.log(tipo_identificacion.value);
+        nit = numeroNIT.value + " - " + codigoNIT.value
         /* Creacion de Data para Proveedor Nivel 1 y 2*/
         if (tipo_identificacion.value == "CC"){
             var data = {
@@ -85,7 +84,7 @@
                 }
             }
             cargando();
-            enviarPeticion(settings);       
+            // enviarPeticion(settings);       
     };
 /*-------------------------------------------------------------------------------------------- */
 /*                                       Enviar Peticion                                       */

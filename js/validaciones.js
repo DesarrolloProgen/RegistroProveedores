@@ -17,6 +17,7 @@ var nombre_contacto_nivel = document.getElementById("nombreContacto1");
 var telefono_contacto_nivel = document.getElementById("telefonoContacto1");
 var email_contacto_nivel = document.getElementById("correoContacto1");
 var plazo_pago_nivel = document.getElementById("plazoPago1");
+console.log(nit);
 
 /*Variables Proveedores Externos */
 
@@ -132,6 +133,8 @@ function validaciones() {
       return false;
     }
 
+    console.log(numeroNIT.value);
+console.log(codigoNIT.value);
     if (nombre_usuario.value == "" || nombre_usuario.value == null) {
       document.getElementById("headermensaje").style.background = '#ff3c37';
       document.getElementById('titulomensaje').innerHTML = 'ERROR';
