@@ -84,7 +84,7 @@
                 }
             }
             cargando();
-            // enviarPeticion(settings);       
+            enviarPeticion(settings);       
     };
 /*-------------------------------------------------------------------------------------------- */
 /*                                       Enviar Peticion                                       */
