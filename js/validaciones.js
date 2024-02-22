@@ -282,7 +282,7 @@ console.log(codigoNIT.value);
     document.getElementById('mensaje').innerHTML = 'Debe ingresar Nombre de la persona de contacto en Progen';
     return false;
   }
-  if (email_contactoProgen.value == "" || email_contactoProgen.value == null) {
+  if (email_contactoProgen.value == "" || email_contactoProgen.value == null || validar_email_progen(email_contactoProgen.value) == false) {
     document.getElementById("headermensaje").style.background = '#ff3c37';
     document.getElementById('titulomensaje').innerHTML = 'ERROR';
     document.getElementById('mensaje').innerHTML = 'Debe ingresar el email de la persona de contacto en Progen';
