@@ -17,7 +17,6 @@ var nombre_contacto_nivel = document.getElementById("nombreContacto1");
 var telefono_contacto_nivel = document.getElementById("telefonoContacto1");
 var email_contacto_nivel = document.getElementById("correoContacto1");
 var plazo_pago_nivel = document.getElementById("plazoPago1");
-console.log(nit);
 
 /*Variables Proveedores Externos */
 
@@ -42,6 +41,8 @@ var email_contactoProgen = document.getElementById("emailContacto");
 
 var natural = [];
 var juridica = [];
+var exterior = [];
+
 
 const PersonaNatural = {
   FormularioNatural: "Formulario registro",
@@ -58,6 +59,10 @@ const PersonaJuridica = {
   RUT: "Copia Rut",
   certBancariaJuridica: "Certificacion Bancaria",
   certBASC: "Certificaciones"
+}
+const PersonaExterior = {
+  RegistroFiscal: "Registro Fiscal",
+  certificadoBancarioExterior: "Certificacion Bancaria"
 }
 
 /* ------------------------------------------------------------------------------------- */
@@ -272,6 +277,12 @@ console.log(codigoNIT.value);
       document.getElementById("headermensaje").style.background = '#ff3c37';
       document.getElementById('titulomensaje').innerHTML = 'ERROR';
       document.getElementById('mensaje').innerHTML = 'Debe seleccionar un tipo de actividad ';
+      return false;
+    }
+    if (exterior.length < 1 || exterior == null ) {
+      document.getElementById("headermensaje").style.background = '#ff3c37';
+      document.getElementById('titulomensaje').innerHTML = 'ERROR';
+      document.getElementById('mensaje').innerHTML = 'Debe subir al menos un documento';
       return false;
     }
   }

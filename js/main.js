@@ -71,7 +71,8 @@
                     plazoPago: plazoPago.value,
                     tipoactividad: tipoactividad.value,
                     nombre_contactoProgen: nombre_contactoProgen.value,
-                    email_contactoProgen: email_contactoProgen.value
+                    email_contactoProgen: email_contactoProgen.value,
+                    exterior: exterior
                 }
             }
             console.log("Se creo la data:");
@@ -167,6 +168,28 @@
           fr.readAsDataURL(file);
         }
         console.log(natural);
+      }
+
+      function saveFileExterior(f) {
+        const file = f.files[0];
+        const fr = new FileReader();
+        fr.addEventListener("load", function () {
+          let contenido = fr.result.split(",");
+          const obj = {
+            archivo: PersonaExterior[f.name],
+            filename: file.name,
+            mimeType: file.type,
+            contenido: {
+              "$content-type" : file.type,
+              "$content" : contenido[1]
+            }
+          };
+          exterior.push(obj)
+        });
+        if (file) {
+          fr.readAsDataURL(file);
+        }
+        console.log(exterior);
       }
 /*--------------------------------  Nombre al cargar archivo  ---------------------------------*/
     $(".custom-file-input").on("change", function () {
