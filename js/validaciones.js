@@ -168,12 +168,12 @@ console.log(codigoNIT.value);
       return false;
     }
 
-    if (plazo_pago_nivel.value == "" || plazo_pago_nivel.value == null || plazo_pago_nivel.value == "Selecciona una opción") {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe seleccionar un metodo de pago';
-      return false;
-    }
+    // if (plazo_pago_nivel.value == "" || plazo_pago_nivel.value == null || plazo_pago_nivel.value == "Selecciona una opción") {
+    //   document.getElementById("headermensaje").style.background = '#ff3c37';
+    //   document.getElementById('titulomensaje').innerHTML = 'ERROR';
+    //   document.getElementById('mensaje').innerHTML = 'Debe seleccionar un metodo de pago';
+    //   return false;
+    // }
 
     /* Validaciones de Documentos obligatorios para Persona Natural */
     if (tipo_empresa.value == "Persona Natural") {
@@ -266,12 +266,12 @@ console.log(codigoNIT.value);
       document.getElementById('mensaje').innerHTML = 'Debe seleccionar un tipo de moneda ';
       return false;
     }
-    if (plazoPago.value == "" || plazoPago.value == null || plazoPago.value == "Selecciona una opción") {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe seleccionar un plazo de pago ';
-      return false;
-    }
+    // if (plazoPago.value == "" || plazoPago.value == null || plazoPago.value == "Selecciona una opción") {
+    //   document.getElementById("headermensaje").style.background = '#ff3c37';
+    //   document.getElementById('titulomensaje').innerHTML = 'ERROR';
+    //   document.getElementById('mensaje').innerHTML = 'Debe seleccionar un plazo de pago ';
+    //   return false;
+    // }
 
     if (tipoactividad.value == "" || tipoactividad.value == null || tipoactividad == "Selecciona una opción") {
       document.getElementById("headermensaje").style.background = '#ff3c37';
