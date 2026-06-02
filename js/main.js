@@ -21,11 +21,12 @@
               tipo_proveedor: tipo_proveedor.value,
               tipo_identificacion: tipo_identificacion.value,
               cedula: cedula.value,
+              pais: pais.value,
+              ciudad: ciudad.value,
               nombre_proveedor: nombre_usuario.value,
-              nombre_contacto_nivel: nombre_contacto_nivel.value,
-              telefono_contacto_nivel: telefono_contacto_nivel.value,
-              email_contacto_nivel: email_contacto_nivel.value,
-              plazo_pago_nivel: "",
+              nombre_contacto: nombre_contacto_nivel.value,
+              telefono_contacto: telefono_contacto_nivel.value,
+              email_contacto: email_contacto_nivel.value,
               nombre_contactoProgen: nombre_contactoProgen.value,
               email_contactoProgen: email_contactoProgen.value,
               natural: natural,
@@ -39,11 +40,12 @@
               tipo_proveedor: tipo_proveedor.value,
               tipo_identificacion: tipo_identificacion.value,
               nit: nit,
+              pais: pais.value,
+              ciudad: ciudad.value,
               nombre_proveedor: nombre_usuario.value,
-              nombre_contacto_nivel: nombre_contacto_nivel.value,
-              telefono_contacto_nivel: telefono_contacto_nivel.value,
-              email_contacto_nivel: email_contacto_nivel.value,
-              plazo_pago_nivel: "",
+              nombre_contacto: nombre_contacto_nivel.value,
+              telefono_contacto: telefono_contacto_nivel.value,
+              email_contacto: email_contacto_nivel.value,
               nombre_contactoProgen: nombre_contactoProgen.value,
               email_contactoProgen: email_contactoProgen.value,
               natural: natural,
@@ -59,16 +61,13 @@
                     tipo_registro: tipo_registro.value,
                     tipo_empresa: tipo_empresa.value,
                     tipo_proveedor: tipo_proveedor.value,
-                    razon_social: razon_social.value,
-                    direccion: direccion.value,
-                    ciudad: ciudad.value,
+                    ciudad: ciudad_exterior.value,
                     pais: pais.value,
-                    nombre_contacto_externo: nombre_contacto_externo.value,
-                    telefono_contacto_externo: telefono_contacto_externo.value,
-                    email_contacto_externo: email_contacto_externo.value,
+                    nombre_contacto: nombre_contacto_externo.value,
+                    telefono_contacto: telefono_contacto_externo.value,
+                    email_contacto: email_contacto_externo.value,
                     cargo: cargo.value,
                     moneda: moneda.value,
-                    plazoPago: "",
                     tipoactividad: tipoactividad.value,
                     nombre_contactoProgen: nombre_contactoProgen.value,
                     email_contactoProgen: email_contactoProgen.value,
@@ -97,10 +96,22 @@
             document.getElementById("headermensaje").style.background = '#6EF05F';
             document.getElementById('titulomensaje').innerHTML='Realizado';
             document.getElementById('mensaje').innerHTML='Se registro correctamente su registro';        
-            document.getElementById("formulario").reset();  
-            $(".custom-file-label").addClass("selected").html("Choose File");
-            natural = {};
-            juridica = {};
+            document.getElementById("formulario").reset();
+            // Reiniciar los desplegables con buscador (Select2) sin disparar paisOnchange
+            $('#pais').val(null).trigger('change.select2');
+            $('#ciudad').val(null).trigger('change.select2');
+            // Ocultar nuevamente las secciones condicionales y limpiar el tipo de proveedor
+            document.getElementById("t_proveedor").value = "";
+            ["contacto", "exterior", "contacto_nivel_1_2", "archivos", "archivosExterior", "datos", "filaCiudadColombia", "cedula", "nit"].forEach(function (id) {
+              var el = document.getElementById(id);
+              if (el) el.style.display = "none";
+            });
+            $(".custom-file-label").removeClass("selected").each(function () {
+              this.innerHTML = this.getAttribute("data-default") || "";
+            });
+            natural = [];
+            juridica = [];
+            exterior = [];
             return response.json;
         })
         .catch(err => {

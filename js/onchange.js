@@ -49,38 +49,49 @@ function tipoindentificacionOnchange(selected) {
   }
 }
 
-/*                            DEPENDIENTO DEL TIPO DE PROVEEDOR                            */
+/*                            DEPENDIENDO DEL PAÍS SELECCIONADO                            */
+/* El tipo de proveedor se asigna automáticamente:
+   - Colombia            -> "Proveedor Nacional"  (flujo nacional)
+   - Cualquier otro país -> "Proveedor Exterior"  (flujo exterior)            */
 
-function tipoproveedorOnchange(selected) {
-  divcontacto = document.getElementById("contacto");
-  divexterior = document.getElementById("exterior");
-  divnivel = document.getElementById("contacto_nivel_1_2");
-  divarchivos = document.getElementById("archivos");
-  divarchivosExterior = document.getElementById("archivosExterior");
-  divdatos = document.getElementById("datos");
+function paisOnchange(selected) {
+  const divcontacto = document.getElementById("contacto");
+  const divexterior = document.getElementById("exterior");
+  const divnivel = document.getElementById("contacto_nivel_1_2");
+  const divarchivos = document.getElementById("archivos");
+  const divarchivosExterior = document.getElementById("archivosExterior");
+  const divdatos = document.getElementById("datos");
+  const filaCiudadColombia = document.getElementById("filaCiudadColombia");
+  const tipoProveedor = document.getElementById("t_proveedor");
 
-  if (selected.value == "Proveedor Exterior") {
+  const esColombia = selected.value === "COLOMBIA";
+
+  if (esColombia) {
+    /* ----------------------------- PROVEEDOR NACIONAL ----------------------------- */
+    tipoProveedor.value = "Proveedor Nacional";
+
+    filaCiudadColombia.style.display = "";
+    divcontacto.style.display = "";
+    divnivel.style.display = "";
+    divarchivos.style.display = "";
+    divdatos.style.display = "";
+
+    divexterior.style.display = "none";
+    divarchivosExterior.style.display = "none";
+  } else {
+    /* ----------------------------- PROVEEDOR EXTERIOR ----------------------------- */
+    tipoProveedor.value = "Proveedor Exterior";
+
+    filaCiudadColombia.style.display = "none";
     divcontacto.style.display = "";
     divexterior.style.display = "";
     divarchivosExterior.style.display = "";
+
     divarchivos.style.display = "none";
     divnivel.style.display = "none";
     divdatos.style.display = "none";
 
     document.getElementsByName("RegistroFiscal")[0].required = false;
     document.getElementsByName("certificadoBancarioExterior")[0].required = false;
-  } else if (selected.value == "Proveedor Nivel 1") {
-    divcontacto.style.display = "";
-    divnivel.style.display = "";
-    divarchivos.style.display = "";
-    divdatos.style.display = "";
-
-    divexterior.style.display = "none";
-  } else {
-    divcontacto.style.display = "";
-    divnivel.style.display = "";
-    divarchivos.style.display = "";
-    divdatos.style.display = "";
-    divexterior.style.display = "none";
   }
 }

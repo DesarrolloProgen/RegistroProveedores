@@ -18,12 +18,14 @@ var telefono_contacto_nivel = document.getElementById("telefonoContacto1");
 var email_contacto_nivel = document.getElementById("correoContacto1");
 var plazo_pago_nivel = document.getElementById("plazoPago1");
 
+/* Variables comunes de ubicación */
+
+var pais = document.getElementById("pais");
+var ciudad = document.getElementById("ciudad"); // Ciudad (Colombia / nacional)
+
 /*Variables Proveedores Externos */
 
-var razon_social = document.getElementById("razon_social");
-var direccion = document.getElementById("direccion")
-var ciudad = document.getElementById("ciudad");
-var pais = document.getElementById("pais");
+var ciudad_exterior = document.getElementById("ciudadExterior");
 var nombre_contacto_externo = document.getElementById("nombreContacto");
 var telefono_contacto_externo = document.getElementById("telefonoContacto");
 var email_contacto_externo = document.getElementById("correoContacto");
@@ -99,16 +101,23 @@ function validaciones() {
     document.getElementById('mensaje').innerHTML = 'Debe seleccionar un tipo de empresa';
     return false;
   }
-  if (tipo_proveedor.value == "" || tipo_proveedor.value == "Selecciona una opción" || tipo_proveedor.value == null) {
+  if (pais.value == "" || pais.value == "Selecciona un país" || pais.value == null) {
     document.getElementById("headermensaje").style.background = '#ff3c37';
     document.getElementById('titulomensaje').innerHTML = 'ERROR';
-    document.getElementById('mensaje').innerHTML = 'Debe seleccionar un tipo de Proveedor';
+    document.getElementById('mensaje').innerHTML = 'Debe seleccionar un país';
     return false;
   }
 
-  /* Validaciones Proveedor Nivel 1 y 2 */
+  /* Validaciones Proveedor Nacional (Colombia) */
 
-  if (tipo_proveedor.value == "Proveedor Nivel 1" || tipo_proveedor.value == "Proveedor Nivel 2") {
+  if (tipo_proveedor.value == "Proveedor Nacional") {
+
+    if (ciudad.value == "" || ciudad.value == "Selecciona una ciudad" || ciudad.value == null) {
+      document.getElementById("headermensaje").style.background = '#ff3c37';
+      document.getElementById('titulomensaje').innerHTML = 'ERROR';
+      document.getElementById('mensaje').innerHTML = 'Debe seleccionar una ciudad';
+      return false;
+    }
 
     if (tipo_identificacion.value == "" || tipo_identificacion.value == "Selecciona una opción" || tipo_identificacion.value == null) {
       document.getElementById("headermensaje").style.background = '#ff3c37';
@@ -204,31 +213,10 @@ console.log(codigoNIT.value);
   /* Validaciones Proveedor Exterior */
 
   if (tipo_proveedor.value == "Proveedor Exterior") {
-    if (razon_social.value == "" || razon_social.value == null) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar el nombre de la razón Social';
-      return false;
-    }
-
-    if (direccion.value == "" || direccion.value == null) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar una dirección';
-      return false;
-    }
-
-    if (ciudad.value == "" || ciudad.value == null) {
+    if (ciudad_exterior.value == "" || ciudad_exterior.value == null) {
       document.getElementById("headermensaje").style.background = '#ff3c37';
       document.getElementById('titulomensaje').innerHTML = 'ERROR';
       document.getElementById('mensaje').innerHTML = 'Debe ingresar una ciudad';
-      return false;
-    }
-
-    if (pais.value == "" || pais.value == null) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar un país';
       return false;
     }
 
