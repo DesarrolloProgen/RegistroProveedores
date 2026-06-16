@@ -25,6 +25,7 @@ var ciudad = document.getElementById("ciudad"); // Ciudad (Colombia / nacional)
 
 /*Variables Proveedores Externos */
 
+var nombre_proveedor_exterior = document.getElementById("nombreProveedorExterior");
 var ciudad_exterior = document.getElementById("ciudadExterior");
 var nombre_contacto_externo = document.getElementById("nombreContacto");
 var telefono_contacto_externo = document.getElementById("telefonoContacto");
@@ -213,6 +214,13 @@ console.log(codigoNIT.value);
   /* Validaciones Proveedor Exterior */
 
   if (tipo_proveedor.value == "Proveedor Exterior") {
+    if (nombre_proveedor_exterior.value == "" || nombre_proveedor_exterior.value == null) {
+      document.getElementById("headermensaje").style.background = '#ff3c37';
+      document.getElementById('titulomensaje').innerHTML = 'ERROR';
+      document.getElementById('mensaje').innerHTML = 'Debe ingresar el nombre o razón social del proveedor';
+      return false;
+    }
+
     if (ciudad_exterior.value == "" || ciudad_exterior.value == null) {
       document.getElementById("headermensaje").style.background = '#ff3c37';
       document.getElementById('titulomensaje').innerHTML = 'ERROR';

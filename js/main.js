@@ -61,6 +61,7 @@
                     tipo_registro: tipo_registro.value,
                     tipo_empresa: tipo_empresa.value,
                     tipo_proveedor: tipo_proveedor.value,
+                    nombre_proveedor: nombre_proveedor_exterior.value,
                     ciudad: ciudad_exterior.value,
                     pais: pais.value,
                     nombre_contacto: nombre_contacto_externo.value,
