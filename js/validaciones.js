@@ -45,6 +45,7 @@ var email_contactoProgen = document.getElementById("emailContacto");
 var natural = [];
 var juridica = [];
 var exterior = [];
+var taller = [];
 
 
 const PersonaNatural = {
@@ -66,6 +67,11 @@ const PersonaJuridica = {
 const PersonaExterior = {
   RegistroFiscal: "Registro Fiscal",
   certificadoBancarioExterior: "Certificacion Bancaria"
+}
+const TallerServicio = {
+  acuerdoTrabajo: "Acuerdo de Trabajo",
+  cedulaRutTaller: "Cedula o RUT",
+  certBancariaTaller: "Certificacion Bancaria"
 }
 
 /* ------------------------------------------------------------------------------------- */
@@ -185,7 +191,7 @@ console.log(codigoNIT.value);
     //   return false;
     // }
 
-    /* Validaciones de Documentos obligatorios para Persona Natural */
+    /* Validaciones de Documentos obligatorios según tipo de empresa */
     if (tipo_empresa.value == "Persona Natural") {
       let obligatoriosNatural = document.querySelectorAll("#Persona_Natural input[required]");
       console.log(obligatoriosNatural);
@@ -194,6 +200,16 @@ console.log(codigoNIT.value);
           document.getElementById("headermensaje").style.background = '#ff3c37';
           document.getElementById('titulomensaje').innerHTML = 'ERROR';
           document.getElementById('mensaje').innerHTML = 'Debe subir un archivo para el documento ' + PersonaNatural[obligatoriosNatural[i].name];
+          return false;
+        }
+      }
+    } else if (tipo_empresa.value == "Taller de Servicio/Mecánico aliado") {
+      let obligatoriosTaller = document.querySelectorAll("#Taller_Servicio input[required]");
+      for (let i = 0; i < obligatoriosTaller.length; i++) {
+        if (!(taller.find((archivo) => archivo.archivo === TallerServicio[obligatoriosTaller[i].name]))) {
+          document.getElementById("headermensaje").style.background = '#ff3c37';
+          document.getElementById('titulomensaje').innerHTML = 'ERROR';
+          document.getElementById('mensaje').innerHTML = 'Debe subir un archivo para el documento ' + TallerServicio[obligatoriosTaller[i].name];
           return false;
         }
       }

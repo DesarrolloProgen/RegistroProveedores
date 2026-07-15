@@ -30,7 +30,8 @@
               nombre_contactoProgen: nombre_contactoProgen.value,
               email_contactoProgen: email_contactoProgen.value,
               natural: natural,
-              juridica: juridica
+              juridica: juridica,
+              taller: taller
             }
           } else if (tipo_identificacion.value == "NIT"){
             var data = {
@@ -49,7 +50,8 @@
               nombre_contactoProgen: nombre_contactoProgen.value,
               email_contactoProgen: email_contactoProgen.value,
               natural: natural,
-              juridica: juridica
+              juridica: juridica,
+              taller: taller
               }
             }
             
@@ -113,6 +115,7 @@
             natural = [];
             juridica = [];
             exterior = [];
+            taller = [];
             return response.json;
         })
         .catch(err => {
@@ -180,6 +183,28 @@
           fr.readAsDataURL(file);
         }
         console.log(natural);
+      }
+
+      function saveFileTaller(f) {
+        const file = f.files[0];
+        const fr = new FileReader();
+        fr.addEventListener("load", function () {
+          let contenido = fr.result.split(",");
+          const obj = {
+            archivo: TallerServicio[f.name],
+            filename: file.name,
+            mimeType: file.type,
+            contenido: {
+              "$content-type" : file.type,
+              "$content" : contenido[1]
+            }
+          };
+          taller.push(obj)
+        });
+        if (file) {
+          fr.readAsDataURL(file);
+        }
+        console.log(taller);
       }
 
       function saveFileExterior(f) {

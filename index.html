@@ -60,6 +60,7 @@
               <option disabled selected>Selecciona una opción</option>
               <option>Persona Natural</option>
               <option>Persona Jurídica</option>
+              <option>Taller de Servicio/Mecánico aliado</option>
             </select>
           </div>
         </div>
@@ -775,6 +776,75 @@
                 width="30px"
                 height="30px"
               />
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="Taller_Servicio"
+          class="container"
+          style="display: none"
+        >
+          <!--Acuerdo de trabajo-->
+          <div class="row g-3">
+            <div class="col-md-8">
+              <div class="custom-file">
+                <input
+                  type="file"
+                  name="acuerdoTrabajo"
+                  class="custom-file-input"
+                  id="customFile"
+                  onchange="saveFileTaller(this)"
+                />
+                <label class="custom-file-label" for="customFile"
+                  >Acuerdo de servicio</label
+                >
+              </div>
+            </div>
+            <div id="cargandoAcuerdoTrabajo" class="col-md-2" style="display: none">
+              <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px" />
+            </div>
+          </div>
+
+          <!--Cédula o RUT-->
+          <div class="row g-3">
+            <div class="col-md-8">
+              <div class="custom-file">
+                <input
+                  type="file"
+                  name="cedulaRutTaller"
+                  class="custom-file-input"
+                  id="customFile"
+                  onchange="saveFileTaller(this)"
+                />
+                <label class="custom-file-label" for="customFile"
+                  >Cédula o RUT</label
+                >
+              </div>
+            </div>
+            <div id="cargandoCedulaRutTaller" class="col-md-2" style="display: none">
+              <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px" />
+            </div>
+          </div>
+
+          <!--Certificación Bancaria-->
+          <div class="row g-3">
+            <div class="col-md-8">
+              <div class="custom-file">
+                <input
+                  type="file"
+                  name="certBancariaTaller"
+                  class="custom-file-input"
+                  id="customFile"
+                  onchange="saveFileTaller(this)"
+                />
+                <label class="custom-file-label" for="customFile"
+                  >Certificación Bancaria no mayor a 90 días.</label
+                >
+              </div>
+            </div>
+            <div id="cargandoCbancariaTaller" class="col-md-2" style="display: none">
+              <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px" />
             </div>
           </div>
         </div>

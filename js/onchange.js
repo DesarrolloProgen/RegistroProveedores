@@ -8,9 +8,11 @@
 function tipopersonaOnchange(selected) {
   divNatural = document.getElementById("Persona_Natural");
   divJuridica = document.getElementById("Persona_Juridica");
+  divTaller = document.getElementById("Taller_Servicio");
   if (selected.value == "Persona Natural") {
     divNatural.style.display = "";
     divJuridica.style.display = "none";
+    divTaller.style.display = "none";
     document.getElementsByName("FormularioNatural")[0].required = true;
     document.getElementsByName("copiacedula")[0].required = true;
     document.getElementsByName("copiaRut")[0].required = true;
@@ -20,9 +22,13 @@ function tipopersonaOnchange(selected) {
     document.getElementsByName("representanteLegal")[0].required = false;
     document.getElementsByName("RUT")[0].required = false;
     document.getElementsByName("certBancariaJuridica")[0].required = false;
+    document.getElementsByName("acuerdoTrabajo")[0].required = false;
+    document.getElementsByName("cedulaRutTaller")[0].required = false;
+    document.getElementsByName("certBancariaTaller")[0].required = false;
   } else if (selected.value == "Persona Jurídica") {
     divNatural.style.display = "none";
     divJuridica.style.display = "";
+    divTaller.style.display = "none";
     document.getElementsByName("Formulariojuridico")[0].required = true;
     document.getElementsByName("certificadoExistencia")[0].required = true;
     document.getElementsByName("representanteLegal")[0].required = true;
@@ -32,6 +38,25 @@ function tipopersonaOnchange(selected) {
     document.getElementsByName("copiacedula")[0].required = false;
     document.getElementsByName("copiaRut")[0].required = false;
     document.getElementsByName("certBancariaNatural")[0].required = false;
+    document.getElementsByName("acuerdoTrabajo")[0].required = false;
+    document.getElementsByName("cedulaRutTaller")[0].required = false;
+    document.getElementsByName("certBancariaTaller")[0].required = false;
+  } else if (selected.value == "Taller de Servicio/Mecánico aliado") {
+    divNatural.style.display = "none";
+    divJuridica.style.display = "none";
+    divTaller.style.display = "";
+    document.getElementsByName("acuerdoTrabajo")[0].required = true;
+    document.getElementsByName("cedulaRutTaller")[0].required = true;
+    document.getElementsByName("certBancariaTaller")[0].required = true;
+    document.getElementsByName("FormularioNatural")[0].required = false;
+    document.getElementsByName("copiacedula")[0].required = false;
+    document.getElementsByName("copiaRut")[0].required = false;
+    document.getElementsByName("certBancariaNatural")[0].required = false;
+    document.getElementsByName("Formulariojuridico")[0].required = false;
+    document.getElementsByName("certificadoExistencia")[0].required = false;
+    document.getElementsByName("representanteLegal")[0].required = false;
+    document.getElementsByName("RUT")[0].required = false;
+    document.getElementsByName("certBancariaJuridica")[0].required = false;
   }
 }
 /*                            DEPENDIENTO DEL TIPO DE IDENTIFICACION                            */
