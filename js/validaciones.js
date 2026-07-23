@@ -27,6 +27,7 @@ var ciudad = document.getElementById("ciudad"); // Ciudad (Colombia / nacional)
 
 var nombre_proveedor_exterior = document.getElementById("nombreProveedorExterior");
 var ciudad_exterior = document.getElementById("ciudadExterior");
+var direccion_exterior = document.getElementById("direccion");
 var nombre_contacto_externo = document.getElementById("nombreContacto");
 var telefono_contacto_externo = document.getElementById("telefonoContacto");
 var email_contacto_externo = document.getElementById("correoContacto");
@@ -53,7 +54,8 @@ const PersonaNatural = {
   copiacedula: "Copia de Cedula",
   copiaRut: "Copia Rut",
   certBancariaNatural: "Certificacion Bancaria",
-  certificaciones: "Certificaciones"
+  certificaciones: "Certificaciones",
+  acuerdoSeguridadNatural: "Acuerdo de Seguridad"
 }
 
 const PersonaJuridica = {
@@ -62,7 +64,8 @@ const PersonaJuridica = {
   representanteLegal: "Copia de Cedula",
   RUT: "Copia Rut",
   certBancariaJuridica: "Certificacion Bancaria",
-  certBASC: "Certificaciones"
+  certBASC: "Certificaciones",
+  acuerdoSeguridadJuridica: "Acuerdo de Seguridad"
 }
 const PersonaExterior = {
   RegistroFiscal: "Registro Fiscal",
@@ -71,7 +74,8 @@ const PersonaExterior = {
 const TallerServicio = {
   acuerdoTrabajo: "Acuerdo de Trabajo",
   cedulaRutTaller: "Cedula o RUT",
-  certBancariaTaller: "Certificacion Bancaria"
+  certBancariaTaller: "Certificacion Bancaria",
+  acuerdoSeguridadTaller: "Acuerdo de Seguridad"
 }
 
 /* ------------------------------------------------------------------------------------- */
@@ -241,6 +245,13 @@ console.log(codigoNIT.value);
       document.getElementById("headermensaje").style.background = '#ff3c37';
       document.getElementById('titulomensaje').innerHTML = 'ERROR';
       document.getElementById('mensaje').innerHTML = 'Debe ingresar una ciudad';
+      return false;
+    }
+
+    if (direccion_exterior.value == "" || direccion_exterior.value == null) {
+      document.getElementById("headermensaje").style.background = '#ff3c37';
+      document.getElementById('titulomensaje').innerHTML = 'ERROR';
+      document.getElementById('mensaje').innerHTML = 'Debe ingresar una dirección';
       return false;
     }
 

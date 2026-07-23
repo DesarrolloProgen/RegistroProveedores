@@ -296,6 +296,24 @@
             />
           </div>
 
+          <!-- Dirección -->
+          <div class="row g-3 align-items-center">
+            <label
+              for="direccion"
+              class="col-sm-2 col-form-label offset-md-1"
+              style="margin-right: 12px"
+              >Dirección:</label
+            >
+            <input
+              id="direccion"
+              name="direccion"
+              class="form-control col-sm-4"
+              type="text"
+              placeholder="Ingrese su dirección completa"
+              requerid
+            />
+          </div>
+
           <!-- Nombre de Contacto-->
 
           <div class="row g-3 align-items-center">
@@ -589,6 +607,36 @@
               />
             </div>
           </div>
+
+          <!-- Acuerdo de seguridad (opcional) -->
+          <div class="row g-3">
+            <div class="col-md-8">
+              <div class="custom-file">
+                <input
+                  type="file"
+                  name="acuerdoSeguridadNatural"
+                  class="custom-file-input"
+                  id="customFile"
+                  onchange="saveFileNatural(this)"
+                />
+                <label class="custom-file-label" for="customFile"
+                  >Acuerdo de seguridad (opcional)</label
+                >
+              </div>
+            </div>
+            <div
+              id="cargandoAcuerdoSeguridadNatural"
+              class="col-md-2"
+              style="display: none"
+            >
+              <img
+                src="https://acegif.com/wp-content/uploads/loading-25.gif"
+                alt="Cargando"
+                width="30px"
+                height="30px"
+              />
+            </div>
+          </div>
         </div>
 
         <div
@@ -778,6 +826,36 @@
               />
             </div>
           </div>
+
+          <!-- Acuerdo de seguridad (opcional) -->
+          <div class="row g-3">
+            <div class="col-md-8">
+              <div class="custom-file">
+                <input
+                  type="file"
+                  name="acuerdoSeguridadJuridica"
+                  class="custom-file-input"
+                  id="customFile"
+                  onchange="saveFileJuridica(this)"
+                />
+                <label class="custom-file-label" for="customFile"
+                  >Acuerdo de seguridad (opcional)</label
+                >
+              </div>
+            </div>
+            <div
+              id="cargandoAcuerdoSeguridadJuridica"
+              class="col-md-2"
+              style="display: none"
+            >
+              <img
+                src="https://acegif.com/wp-content/uploads/loading-25.gif"
+                alt="Cargando"
+                width="30px"
+                height="30px"
+              />
+            </div>
+          </div>
         </div>
 
         <div
@@ -844,6 +922,27 @@
               </div>
             </div>
             <div id="cargandoCbancariaTaller" class="col-md-2" style="display: none">
+              <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px" />
+            </div>
+          </div>
+
+          <!--Acuerdo de seguridad (opcional)-->
+          <div class="row g-3">
+            <div class="col-md-8">
+              <div class="custom-file">
+                <input
+                  type="file"
+                  name="acuerdoSeguridadTaller"
+                  class="custom-file-input"
+                  id="customFile"
+                  onchange="saveFileTaller(this)"
+                />
+                <label class="custom-file-label" for="customFile"
+                  >Acuerdo de seguridad (opcional)</label
+                >
+              </div>
+            </div>
+            <div id="cargandoAcuerdoSeguridadTaller" class="col-md-2" style="display: none">
               <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px" />
             </div>
           </div>
@@ -929,14 +1028,21 @@
             style="margin-right: 12px"
             >Nombre Contacto:</label
           >
-          <input
+          <select
             id="nombreContactoProgen"
             name="nombreContactoProgen"
             class="form-control col-sm-4"
-            type="text"
-            placeholder="Nombre de contacto de la persona de PROGEN"
+            onchange="contactoProgenOnchange(this)"
             requerid
-          />
+          >
+            <option value="" disabled selected>Selecciona un nombre</option>
+            <option value="ARMANDO LACOUTURE">ARMANDO LACOUTURE</option>
+            <option value="ASTRID MUÑOZ">ASTRID MUÑOZ</option>
+            <option value="CAROLINA MONTENEGRO">CAROLINA MONTENEGRO</option>
+            <option value="JERALDINE MURCIA">JERALDINE MURCIA</option>
+            <option value="SANDRA AGUILAR">SANDRA AGUILAR</option>
+            <option value="WILLTON PRECIADO">WILLTON PRECIADO</option>
+          </select>
         </div>
 
         <div class="row g-3 align-items-center">
@@ -952,6 +1058,7 @@
             class="form-control col-sm-4 email-input"
             type="email"
             placeholder="Email de contacto de la persona de PROGEN"
+            readonly
             requerid
           />
         </div>

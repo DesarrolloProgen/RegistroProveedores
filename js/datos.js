@@ -3,6 +3,15 @@
 /* ------------------------------------------------------------------------------------- */
 /* Estas listas alimentan los campos desplegables (Select2) de País y Ciudad.            */
 
+const CONTACTOS_PROGEN = {
+  "ARMANDO LACOUTURE": "exportaciones.representante@progen.com.co",
+  "ASTRID MUÑOZ": "logistica.exportaciones@progen.com.co",
+  "CAROLINA MONTENEGRO": "exportaciones.asistente@progen.com.co",
+  "JERALDINE MURCIA": "logistica.comercioexterior@progen.com.co",
+  "SANDRA AGUILAR": "gh.gerente@progen.com.co",
+  "WILLTON PRECIADO": "contralor@progen.com.co"
+};
+
 const PAISES = [
   "AFGANISTÁN", "ALBANIA", "ALEMANIA", "ANDORRA", "ANGOLA", "ANTIGUA Y BARBUDA",
   "ARABIA SAUDITA", "ARGELIA", "ARGENTINA", "ARMENIA", "AUSTRALIA", "AUSTRIA",

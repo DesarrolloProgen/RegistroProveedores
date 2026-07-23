@@ -4,6 +4,11 @@
 /* Funciones Onchange para las condiciones de mostrar diferentes 
                                      DIV dependiendo de selecciones por parte del usuario*/
 
+/*                       CONTACTO PROGEN: AUTOCOMPLETAR EMAIL                            */
+function contactoProgenOnchange(selected) {
+  document.getElementById("emailContacto").value = CONTACTOS_PROGEN[selected.value] || "";
+}
+
 /*                            DEPENDIENTO DEL TIPO DE PERSONA                            */
 function tipopersonaOnchange(selected) {
   divNatural = document.getElementById("Persona_Natural");

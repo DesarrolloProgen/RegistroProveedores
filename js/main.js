@@ -65,6 +65,7 @@
                     tipo_proveedor: tipo_proveedor.value,
                     nombre_proveedor: nombre_proveedor_exterior.value,
                     ciudad: ciudad_exterior.value,
+                    direccion: direccion_exterior.value,
                     pais: pais.value,
                     nombre_contacto: nombre_contacto_externo.value,
                     telefono_contacto: telefono_contacto_externo.value,
