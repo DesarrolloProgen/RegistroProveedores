@@ -36,6 +36,7 @@ const CONTACTOS_PROGEN_NACIONAL = {
   "MARIANA VANEGAS": "rc.jefemercadeoyventas@progen.com.co",
   "MAURICIO PRIETO": "servicio.jefe@progen.com.co",
   "MIGUEL ANGEL ORDOÑEZ": "tic.gerente@progen.com.co",
+  "OMAR VILLALBA": "mantenimiento.jefe@progen.com.co",
   "PATRICIA JARA RAMIREZ": "logistica.abastecimiento@progen.com.co",
   "PATRICIA TRIANA": "rc.auxiliar@royalcondor.com",
   "SANDRA AGUILAR": "gh.gerente@progen.com.co",
