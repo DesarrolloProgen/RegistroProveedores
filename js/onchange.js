@@ -5,8 +5,38 @@
                                      DIV dependiendo de selecciones por parte del usuario*/
 
 /*                       CONTACTO PROGEN: AUTOCOMPLETAR EMAIL                            */
+let CONTACTOS_PROGEN_ACTIVOS = CONTACTOS_PROGEN_EXTERIOR;
+
 function contactoProgenOnchange(selected) {
-  document.getElementById("emailContacto").value = CONTACTOS_PROGEN[selected.value] || "";
+  document.getElementById("emailContacto").value = CONTACTOS_PROGEN_ACTIVOS[selected.value] || "";
+}
+
+/* Reconstruye el desplegable de "Nombre Contacto" según el tipo de proveedor:
+   - Taller de Servicio/Mecánico aliado -> se oculta el nombre, solo se muestra el correo fijo
+   - Proveedor Nacional (Colombia)      -> lista de contactos nacionales
+   - Proveedor Exterior                -> lista de contactos de exportaciones            */
+function actualizarContactoProgen() {
+  const filaNombre = document.getElementById("filaNombreContactoProgen");
+  const selectNombre = document.getElementById("nombreContactoProgen");
+  const inputEmail = document.getElementById("emailContacto");
+  const esTaller = document.getElementById("t_empresa").value === "Taller de Servicio/Mecánico aliado";
+  const esColombia = document.getElementById("pais").value === "COLOMBIA";
+
+  if (esTaller) {
+    filaNombre.style.display = "none";
+    selectNombre.value = "";
+    inputEmail.value = CONTACTO_PROGEN_TALLER.email;
+    return;
+  }
+
+  filaNombre.style.display = "";
+  CONTACTOS_PROGEN_ACTIVOS = esColombia ? CONTACTOS_PROGEN_NACIONAL : CONTACTOS_PROGEN_EXTERIOR;
+
+  selectNombre.innerHTML = '<option value="" disabled selected>Selecciona un nombre</option>';
+  Object.keys(CONTACTOS_PROGEN_ACTIVOS).forEach(function (nombre) {
+    selectNombre.appendChild(new Option(nombre, nombre));
+  });
+  inputEmail.value = "";
 }
 
 /*                            DEPENDIENTO DEL TIPO DE PERSONA                            */
@@ -63,6 +93,7 @@ function tipopersonaOnchange(selected) {
     document.getElementsByName("RUT")[0].required = false;
     document.getElementsByName("certBancariaJuridica")[0].required = false;
   }
+  actualizarContactoProgen();
 }
 /*                            DEPENDIENTO DEL TIPO DE IDENTIFICACION                            */
 
@@ -124,4 +155,5 @@ function paisOnchange(selected) {
     document.getElementsByName("RegistroFiscal")[0].required = false;
     document.getElementsByName("certificadoBancarioExterior")[0].required = false;
   }
+  actualizarContactoProgen();
 }
