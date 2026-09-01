@@ -3,6 +3,25 @@
 /* ------------------------------------------------------------------------------------- */
 /* Estas listas alimentan los campos desplegables (Select2) de País y Ciudad.            */
 
+/* Condiciones de pago para PROVEEDOR EXTERIOR (codigo - descripcion) */
+const CONDICIONES_PAGO_EXTERIOR = [
+  { codigo: "P11", descripcion: "L/C 180 DIAS" },
+  { codigo: "P12", descripcion: "CONTRA DOC.EMBARQUE 8 DIAS" },
+  { codigo: "P17", descripcion: "100% ANTICIPADO" },
+  { codigo: "P18", descripcion: "100% ANTICIPADO ANTES BL" },
+  { codigo: "P19", descripcion: "CREDITO 120 DIAS BL" },
+  { codigo: "P20", descripcion: "CREDITO 150 DIAS FACTURA" },
+  { codigo: "P21", descripcion: "CREDITO 30 DIAS BL" },
+  { codigo: "P22", descripcion: "CREDITO 30 DIAS FACTURA" },
+  { codigo: "P23", descripcion: "CREDITO 60 DIAS BL" },
+  { codigo: "P24", descripcion: "CREDITO 60 DIAS FACTURA" },
+  { codigo: "P25", descripcion: "CREDITO 90 DIAS BL" },
+  { codigo: "P26", descripcion: "CREDITO 90 DIAS FACTURA" },
+  { codigo: "P27", descripcion: "20% ANTICIPADO, 80% BL" },
+  { codigo: "P28", descripcion: "30% ANTICIPADO, 70% ANTES BL" },
+  { codigo: "P29", descripcion: "50% ANTICIPADO, 50% ANTES BL" },
+];
+
 /* Contactos Progen para PROVEEDOR EXTERIOR */
 const CONTACTOS_PROGEN_EXTERIOR = {
   "ARMANDO LACOUTURE": "exportaciones.representante@progen.com.co",
@@ -11,12 +30,15 @@ const CONTACTOS_PROGEN_EXTERIOR = {
   "JERALDINE MURCIA": "logistica.comercioexterior@progen.com.co",
   "SANDRA AGUILAR": "gh.gerente@progen.com.co",
   "WILLTON PRECIADO": "contralor@progen.com.co",
+  "DAYANNA SANCHEZ": "exportaciones.auxiliar1@progen.com.co",
+  "MIGUEL ANGEL ORDOÑEZ": "tic.gerente@progen.com.co",
 };
 
 /* Contactos Progen para PROVEEDOR NACIONAL y TALLER DE SERVICIO/MECÁNICO ALIADO */
 const CONTACTOS_PROGEN_NACIONAL = {
   "ALEXANDER CEPEDA": "mantenimiento.ingeniero1@progen.com.co",
   "ALBERTO CASTAÑO": "operaciones.gerente@progen.com.co",
+  "ASTRID MUÑOZ": "logistica.exportaciones@progen.com.co",
   "BRITNEY CAMILA ROJAS": "rc.representantedrones@royalcondor.com",
   "CARLOS ANDRES LUGO": "tic.jefe@progen.com.co",
   "CARLOS VILLAMIL": "logistica.agentecomprador@progen.com.co",
@@ -25,16 +47,18 @@ const CONTACTOS_PROGEN_NACIONAL = {
   "DAVID CASTRO": "senalizacion.director@progen.com.co",
   "DIANA MUÑOZ": "logistica.analista2@progen.com.co",
   "EVELYN MORENO MONTOYA": "finanzas.auxiliar1@progen.com.co",
-  "FERDY BALAGUERA": "seguridadvial.jefe@progen.com.co",
+  "FREDY BALAGUERA": "seguridadvial.jefe@progen.com.co",
   "JAIME SALAS": "finanzas.gerente@progen.com.co",
   "JAIME ZAMBRANO": "mantenimientomoldes.jefe@progen.com.co",
   "JAINOVER VARGAS": "logistica.transporte@progen.com.co",
+  "JERALDINE MURCIA": "logistica.comercioexterior@progen.com.co",
   "JOSE RICARDO SARMIENTO": "rc.limpiezaydesinfeccion@royalcondor.com",
   "LUIS CARLOS GUERRERO": "id.director@progen.com.co",
   "LUIS JAVIER MAYA": "instrumentacion.gerente@progen.com.co",
   "MARIA NELLY BETANCOURT": "seguridadvial.comercial1@progen.com.co",
-  "MARIANA VANEGAS": "rc.jefemercadeoyventas@progen.com.co",
+  "MARIANA VANEGAS": "rc.jefemercadeoyventas@royalcondor.com",
   "MAURICIO PRIETO": "servicio.jefe@progen.com.co",
+  "MILLER AGUDELO": "logistica.analista1@progen.com.co",
   "MIGUEL ANGEL ORDOÑEZ": "tic.gerente@progen.com.co",
   "OMAR VILLALBA": "mantenimiento.jefe@progen.com.co",
   "PATRICIA JARA RAMIREZ": "logistica.abastecimiento@progen.com.co",

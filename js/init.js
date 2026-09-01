@@ -18,6 +18,15 @@ $(document).ready(function () {
     $ciudad.append(new Option(ciudad, ciudad));
   });
 
+  /* ---------------------- Llenar Condiciones de Pago (exterior) ------------- */
+  const selCondicion = document.getElementById("condicionPago");
+  if (selCondicion) {
+    CONDICIONES_PAGO_EXTERIOR.forEach(function (c) {
+      const texto = c.codigo + " - " + c.descripcion;
+      selCondicion.appendChild(new Option(texto, texto));
+    });
+  }
+
   /* ---------------------- Inicializar Select2 (con buscador) ---------------- */
   $pais.select2({
     placeholder: "Selecciona un país",

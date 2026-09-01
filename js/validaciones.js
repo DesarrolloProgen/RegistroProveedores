@@ -34,6 +34,7 @@ var email_contacto_externo = document.getElementById("correoContacto");
 var cargo = document.getElementById("cargo");
 var moneda = document.getElementById("moneda");
 var plazoPago = document.getElementById("plazoPago");
+var condicionPago = document.getElementById("condicionPago");
 var tipoactividad = document.getElementById("tipoactividad");
 
 /* Variables de contacto con PROGEN*/
@@ -289,6 +290,13 @@ console.log(codigoNIT.value);
       document.getElementById('mensaje').innerHTML = 'Debe seleccionar un tipo de moneda ';
       return false;
     }
+    if (condicionPago.value == "" || condicionPago.value == null || condicionPago.value == "Selecciona una opción") {
+      document.getElementById("headermensaje").style.background = '#ff3c37';
+      document.getElementById('titulomensaje').innerHTML = 'ERROR';
+      document.getElementById('mensaje').innerHTML = 'Debe seleccionar una condición de pago ';
+      return false;
+    }
+
     // if (plazoPago.value == "" || plazoPago.value == null || plazoPago.value == "Selecciona una opción") {
     //   document.getElementById("headermensaje").style.background = '#ff3c37';
     //   document.getElementById('titulomensaje').innerHTML = 'ERROR';

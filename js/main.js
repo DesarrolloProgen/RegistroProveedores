@@ -72,6 +72,7 @@
                     email_contacto: email_contacto_externo.value,
                     cargo: cargo.value,
                     moneda: moneda.value,
+                    condicion_pago: condicionPago.value,
                     tipoactividad: tipoactividad.value,
                     nombre_contactoProgen: nombre_contactoProgen.value,
                     email_contactoProgen: email_contactoProgen.value,
