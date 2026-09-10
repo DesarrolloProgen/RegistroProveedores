@@ -18,14 +18,18 @@ $(document).ready(function () {
     $ciudad.append(new Option(ciudad, ciudad));
   });
 
-  /* ---------------------- Llenar Condiciones de Pago (exterior) ------------- */
-  const selCondicion = document.getElementById("condicionPago");
-  if (selCondicion) {
-    CONDICIONES_PAGO_EXTERIOR.forEach(function (c) {
+  /* ---------------------- Llenar Condiciones de Pago (exterior y nacional) -- */
+  [
+    ["condicionPago", CONDICIONES_PAGO_EXTERIOR],
+    ["condicionPagoNacional", CONDICIONES_PAGO_NACIONAL],
+  ].forEach(function (par) {
+    const sel = document.getElementById(par[0]);
+    if (!sel) return;
+    par[1].forEach(function (c) {
       const texto = c.codigo + " - " + c.descripcion;
-      selCondicion.appendChild(new Option(texto, texto));
+      sel.appendChild(new Option(texto, texto));
     });
-  }
+  });
 
   /* ---------------------- Inicializar Select2 (con buscador) ---------------- */
   $pais.select2({

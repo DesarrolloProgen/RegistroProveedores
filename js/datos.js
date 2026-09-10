@@ -22,6 +22,26 @@ const CONDICIONES_PAGO_EXTERIOR = [
   { codigo: "P29", descripcion: "50% ANTICIPADO, 50% ANTES BL" },
 ];
 
+/* Condiciones de pago para PROVEEDOR Nacional (codigo - descripcion) */
+const CONDICIONES_PAGO_NACIONAL = [
+  { codigo: "P01", descripcion: "30 DIAS - PROVEEDORES" },
+  { codigo: "P02", descripcion: "45 DIAS - PROVEEDORES" },
+  { codigo: "P03", descripcion: "60 DIAS - PROVEEDORES" },
+  { codigo: "P04", descripcion: "75 DIAS - PROVEEDORES" },
+  { codigo: "P05", descripcion: "ANTICIPADO - PROVEEDORES" },
+  { codigo: "P06", descripcion: "20 DIAS - PROVEEDOR" },
+  { codigo: "P07", descripcion: "8 DIAS - PROVEEDOR" },
+  { codigo: "P08", descripcion: "CONTADO - PROVEEDOR" },
+  { codigo: "P09", descripcion: "85 DIAS - PROVEEDORES" },
+  { codigo: "P10", descripcion: "150 DIAS - PROVEEDORES" },
+  { codigo: "P13", descripcion: "90 DIAS - PROVEEDORES" },
+  { codigo: "P14", descripcion: "ANTICIPO - CONTADO PROVEEDOR" },
+  { codigo: "P15", descripcion: "25 DIAS-PROVEEDOR" },
+  { codigo: "P16", descripcion: "120 DIAS - PROVEEDORES" },
+];
+
+
+
 /* Contactos Progen para PROVEEDOR EXTERIOR */
 const CONTACTOS_PROGEN_EXTERIOR = {
   "ARMANDO LACOUTURE": "exportaciones.representante@progen.com.co",

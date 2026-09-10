@@ -39,6 +39,20 @@ function actualizarContactoProgen() {
   inputEmail.value = "";
 }
 
+/*                  CONDICIÓN DE PAGO: SOLO VISIBLE EN INSCRIPCIÓN                        */
+function esInscripcion() {
+  return document.getElementById("t_registro").value === "Inscripción";
+}
+
+function actualizarCondicionPago() {
+  const mostrar = esInscripcion();
+  ["condicionPago", "condicionPagoNacional"].forEach(function (id) {
+    const select = document.getElementById(id);
+    select.closest(".row").style.display = mostrar ? "" : "none";
+    if (!mostrar) select.selectedIndex = 0;
+  });
+}
+
 /*                            DEPENDIENTO DEL TIPO DE PERSONA                            */
 function tipopersonaOnchange(selected) {
   divNatural = document.getElementById("Persona_Natural");

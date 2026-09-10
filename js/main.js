@@ -12,6 +12,9 @@
 /*-------------------------------------------------------------------------------------------- */ 
     function submitForm(){
         nit = numeroNIT.value + " - " + codigoNIT.value
+        /* La condición de pago solo aplica en Inscripción */
+        var condicion_pago_nacional = esInscripcion() ? condicionPagoNacional.value : "";
+        var condicion_pago_exterior = esInscripcion() ? condicionPago.value : "";
         /* Creacion de Data para Proveedor Nivel 1 y 2*/
         if (tipo_identificacion.value == "CC"){
             var data = {
@@ -27,6 +30,7 @@
               nombre_contacto: nombre_contacto_nivel.value,
               telefono_contacto: telefono_contacto_nivel.value,
               email_contacto: email_contacto_nivel.value,
+              condicion_pago: condicion_pago_nacional,
               nombre_contactoProgen: nombre_contactoProgen.value,
               email_contactoProgen: email_contactoProgen.value,
               natural: natural,
@@ -47,6 +51,7 @@
               nombre_contacto: nombre_contacto_nivel.value,
               telefono_contacto: telefono_contacto_nivel.value,
               email_contacto: email_contacto_nivel.value,
+              condicion_pago: condicion_pago_nacional,
               nombre_contactoProgen: nombre_contactoProgen.value,
               email_contactoProgen: email_contactoProgen.value,
               natural: natural,
@@ -72,7 +77,7 @@
                     email_contacto: email_contacto_externo.value,
                     cargo: cargo.value,
                     moneda: moneda.value,
-                    condicion_pago: condicionPago.value,
+                    condicion_pago: condicion_pago_exterior,
                     tipoactividad: tipoactividad.value,
                     nombre_contactoProgen: nombre_contactoProgen.value,
                     email_contactoProgen: email_contactoProgen.value,
@@ -111,6 +116,7 @@
               var el = document.getElementById(id);
               if (el) el.style.display = "none";
             });
+            actualizarCondicionPago();
             $(".custom-file-label").removeClass("selected").each(function () {
               this.innerHTML = this.getAttribute("data-default") || "";
             });

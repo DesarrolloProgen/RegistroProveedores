@@ -17,6 +17,7 @@ var nombre_contacto_nivel = document.getElementById("nombreContacto1");
 var telefono_contacto_nivel = document.getElementById("telefonoContacto1");
 var email_contacto_nivel = document.getElementById("correoContacto1");
 var plazo_pago_nivel = document.getElementById("plazoPago1");
+var condicionPagoNacional = document.getElementById("condicionPagoNacional");
 
 /* Variables comunes de ubicación */
 
@@ -189,6 +190,13 @@ console.log(codigoNIT.value);
       return false;
     }
 
+    if (esInscripcion() && (condicionPagoNacional.value == "" || condicionPagoNacional.value == null || condicionPagoNacional.value == "Selecciona una opción")) {
+      document.getElementById("headermensaje").style.background = '#ff3c37';
+      document.getElementById('titulomensaje').innerHTML = 'ERROR';
+      document.getElementById('mensaje').innerHTML = 'Debe seleccionar una condición de pago ';
+      return false;
+    }
+
     // if (plazo_pago_nivel.value == "" || plazo_pago_nivel.value == null || plazo_pago_nivel.value == "Selecciona una opción") {
     //   document.getElementById("headermensaje").style.background = '#ff3c37';
     //   document.getElementById('titulomensaje').innerHTML = 'ERROR';
@@ -290,7 +298,7 @@ console.log(codigoNIT.value);
       document.getElementById('mensaje').innerHTML = 'Debe seleccionar un tipo de moneda ';
       return false;
     }
-    if (condicionPago.value == "" || condicionPago.value == null || condicionPago.value == "Selecciona una opción") {
+    if (esInscripcion() && (condicionPago.value == "" || condicionPago.value == null || condicionPago.value == "Selecciona una opción")) {
       document.getElementById("headermensaje").style.background = '#ff3c37';
       document.getElementById('titulomensaje').innerHTML = 'ERROR';
       document.getElementById('mensaje').innerHTML = 'Debe seleccionar una condición de pago ';

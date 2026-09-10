@@ -37,7 +37,12 @@
             >Tipo de registro</label
           >
           <div class="col-sm-4">
-            <select id="t_registro" name="t_registro" class="form-control">
+            <select
+              id="t_registro"
+              name="t_registro"
+              class="form-control"
+              onchange="actualizarCondicionPago()"
+            >
               <option disabled selected>Selecciona una opción</option>
               <option>Inscripción</option>
               <option>Actualización</option>
@@ -238,6 +243,23 @@
               requerid
             />
           </div>
+          <!-- Condición de Pago (nacional, solo en Inscripción) -->
+          <div id="filaCondicionPagoNacional" class="row g-3 align-items-center" style="display: none">
+            <label
+              for="condicionPagoNacional"
+              class="col-sm-2 col-form-label offset-md-1"
+              >Condición de Pago:</label
+            >
+            <div class="col-sm-4">
+              <select
+                id="condicionPagoNacional"
+                name="condicionPagoNacional"
+                class="form-control"
+              >
+                <option disabled selected>Selecciona una opción</option>
+              </select>
+            </div>
+          </div>
           <!-- Plazo de pago -->
           <div class="row g-3 align-items-center" style="display: none;">
             <label for="plazoPago1" class="col-sm-2 col-form-label offset-md-1"
@@ -405,9 +427,9 @@
             </div>
           </div>
 
-          <!-- Condición de Pago -->
+          <!-- Condición de Pago (exterior, solo en Inscripción) -->
 
-          <div class="row g-3 align-items-center">
+          <div id="filaCondicionPago" class="row g-3 align-items-center" style="display: none">
             <label
               for="condicionPago"
               class="col-sm-2 col-form-label offset-md-1"
