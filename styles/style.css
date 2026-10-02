@@ -193,3 +193,49 @@
     content: "Cambiar";
     background-color: #28a745;
   }
+  /* ---------------------- ESPACIO Y AVISO DE SCROLL (IFRAME) ---------------------- */
+  /* El formulario vive dentro de un iframe; se deja aire al final para que el
+     botón de envío nunca quede pegado al borde inferior del marco. */
+  #formulario{
+    padding-bottom: 90px;
+  }
+
+  /* Indicador flotante: aparece cuando queda contenido por debajo */
+  #indicadorScroll{
+    position: fixed;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 999px;
+    background-color: #2f6fed;
+    color: #ffffff;
+    font-family: Helvetica;
+    font-size: smaller;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1040;
+  }
+  #indicadorScroll.visible{
+    display: flex;
+  }
+  #indicadorScroll:hover{
+    background-color: #2558c4;
+  }
+  #indicadorScroll .flecha{
+    font-size: 1rem;
+    line-height: 1;
+    animation: rebote 1.4s ease-in-out infinite;
+  }
+  @keyframes rebote{
+    0%, 100%{ transform: translateY(0); }
+    50%{ transform: translateY(3px); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    #indicadorScroll .flecha{ animation: none; }
+  }

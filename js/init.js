@@ -96,3 +96,38 @@ $(document).ready(function () {
     });
   });
 });
+
+/* ------------------------------------------------------------------------------------- */
+/*            AVISO DE "SEGUIR BAJANDO" (el formulario se muestra en un iframe)           */
+/* ------------------------------------------------------------------------------------- */
+/* Al mostrarse secciones nuevas el contenido crece y el botón de enviar puede quedar     */
+/* fuera de la parte visible del iframe. El indicador aparece mientras quede contenido    */
+/* por debajo y al pulsarlo se baja un poco.                                              */
+
+function bajarUnPoco() {
+  const alto = window.innerHeight || document.documentElement.clientHeight;
+  window.scrollBy({ top: Math.round(alto * 0.8), behavior: "smooth" });
+}
+
+$(document).ready(function () {
+  const indicador = document.getElementById("indicadorScroll");
+  if (!indicador) return;
+
+  function actualizarIndicadorScroll() {
+    const doc = document.documentElement;
+    const faltaPorBajar = doc.scrollHeight - window.pageYOffset - window.innerHeight;
+    indicador.classList.toggle("visible", faltaPorBajar > 40);
+  }
+
+  window.addEventListener("scroll", actualizarIndicadorScroll, { passive: true });
+  window.addEventListener("resize", actualizarIndicadorScroll);
+
+  /* El contenido cambia al mostrarse u ocultarse secciones del formulario */
+  if (window.ResizeObserver) {
+    new ResizeObserver(actualizarIndicadorScroll).observe(document.body);
+  } else {
+    setInterval(actualizarIndicadorScroll, 800);
+  }
+
+  actualizarIndicadorScroll();
+});
