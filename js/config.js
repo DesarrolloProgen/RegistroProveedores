@@ -2,13 +2,22 @@
 /*                         CONFIGURACIÓN DEL BACKEND (Portal PROGEN)                     */
 /* ------------------------------------------------------------------------------------- */
 /*
-  Único lugar donde se define a qué backend llama el formulario.
+  Único lugar donde se define a qué backend (Conecta) llama el formulario.
 
-  TODO producción: cambiar API_BASE_URL por la URL pública del backend
-  desplegado (https://.../api/v1) y, en el .env de ese backend, agregar el
-  dominio de este sitio a ZONA_PROVEEDORES_ORIGENES y a ALLOWED_ORIGINS.
+  - Abierto en local (localhost, 127.0.0.1 o como archivo): backend local.
+  - Publicado (Azure Static Web Apps): Conecta en producción.
+
+  En el .env del backend de Conecta, el dominio de este sitio debe estar en
+  ZONA_PROVEEDORES_ORIGENES (eso también lo habilita en CORS).
 */
-const API_BASE_URL = "http://localhost:3000/api/v1";
+const CONECTA_API_LOCAL = "http://localhost:3000/api/v1";
+const CONECTA_API_PRODUCCION = "https://portal-conecta.progen.com.co/api/v1";
+
+const ES_LOCAL =
+  location.protocol === "file:" ||
+  ["localhost", "127.0.0.1"].indexOf(location.hostname) !== -1;
+
+const API_BASE_URL = ES_LOCAL ? CONECTA_API_LOCAL : CONECTA_API_PRODUCCION;
 
 const ZONA_PROVEEDORES_API_URL = API_BASE_URL + "/externo/zona-proveedores";
 
