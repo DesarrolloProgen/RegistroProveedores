@@ -18,18 +18,8 @@ $(document).ready(function () {
     $ciudad.append(new Option(ciudad, ciudad));
   });
 
-  /* ---------------------- Llenar Condiciones de Pago (exterior y nacional) -- */
-  [
-    ["condicionPago", CONDICIONES_PAGO_EXTERIOR],
-    ["condicionPagoNacional", CONDICIONES_PAGO_NACIONAL],
-  ].forEach(function (par) {
-    const sel = document.getElementById(par[0]);
-    if (!sel) return;
-    par[1].forEach(function (c) {
-      const texto = c.codigo + " - " + c.descripcion;
-      sel.appendChild(new Option(texto, texto));
-    });
-  });
+  /* Las demás listas (tipos, contactos y condiciones de pago) llegan de
+     GET /formulario: ver cargarCatalogo() en main.js.                        */
 
   /* ---------------------- Inicializar Select2 (con buscador) ---------------- */
   $pais.select2({
@@ -60,7 +50,7 @@ $(document).ready(function () {
   /* ---------------------- Forzar mayúsculas en campos de texto -------------- */
   /* Se excluyen los correos (clase .email-input) para no afectar su validación */
   document
-    .querySelectorAll("#formulario input[type=text]:not(.email-input)")
+    .querySelectorAll("#formulario input[type=text]:not(.email-input):not(#sitioWeb)")
     .forEach(function (el) {
       el.addEventListener("input", function () {
         const inicio = el.selectionStart;

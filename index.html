@@ -23,7 +23,35 @@
     <title>Registro Proveedores</title>
   </head>
   <body style="overflow-x: hidden">
-    <form id="formulario">
+    <!-- Aviso si no se pudo cargar el formulario (GET /formulario) -->
+    <div id="errorCatalogo" class="alert alert-danger" style="display: none">
+      <span id="errorCatalogoTexto"></span>
+      <button type="button" class="btn btn-sm btn-outline-danger ml-2" onclick="cargarCatalogo()">
+        Reintentar
+      </button>
+    </div>
+
+    <!-- Pantalla de confirmación (tras POST /:numero/enviar) -->
+    <div id="confirmacion" style="display: none">
+      <fieldset class="border p-2">
+        <legend class="w-auto" style="margin-left: 50px; font-size: large">
+          Solicitud recibida
+        </legend>
+        <p class="numero-registro" id="numeroRegistro"></p>
+        <p>Tu solicitud está en revisión; te escribiremos al correo de contacto.</p>
+        <button type="button" class="btn btn-success" onclick="location.reload()">
+          Hacer otro registro
+        </button>
+      </fieldset>
+    </div>
+
+    <form id="formulario" onsubmit="return false;" novalidate>
+      <!-- Trampa para bots: una persona nunca la ve ni la llena -->
+      <div class="trampa" aria-hidden="true">
+        <label for="sitioWeb">Sitio web</label>
+        <input id="sitioWeb" name="sitioWeb" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
       <!--Leyenda y cuadro datos Proveedor-->
 
       <fieldset class="border p-2">
@@ -43,9 +71,7 @@
               class="form-control"
               onchange="actualizarCondicionPago()"
             >
-              <option disabled selected>Selecciona una opción</option>
-              <option>Inscripción</option>
-              <option>Actualización</option>
+              <option value="" disabled selected>Selecciona una opción</option>
             </select>
           </div>
         </div>
@@ -62,16 +88,10 @@
               class="form-control"
               onchange="tipopersonaOnchange(this)"
             >
-              <option disabled selected>Selecciona una opción</option>
-              <option>Persona Natural</option>
-              <option>Persona Jurídica</option>
-              <option>Taller de Servicio/Mecánico aliado</option>
+              <option value="" disabled selected>Selecciona una opción</option>
             </select>
           </div>
         </div>
-
-        <!-- Tipo de Proveedor (se asigna automáticamente según el país) -->
-        <input type="hidden" id="t_proveedor" name="t_proveedor" value="" />
 
         <!--Fila País -->
         <div class="row g-3 align-items-center">
@@ -113,9 +133,7 @@
                 class="form-control"
                 onchange="tipoindentificacionOnchange(this)"
               >
-                <option disabled selected>Seleccionar</option>
-                <option>CC</option>
-                <option>NIT</option>
+                <option value="" disabled selected>Seleccionar</option>
               </select>
             </div>
             <!--Cedula-->
@@ -256,26 +274,7 @@
                 name="condicionPagoNacional"
                 class="form-control"
               >
-                <option disabled selected>Selecciona una opción</option>
-              </select>
-            </div>
-          </div>
-          <!-- Plazo de pago -->
-          <div class="row g-3 align-items-center" style="display: none;">
-            <label for="plazoPago1" class="col-sm-2 col-form-label offset-md-1"
-              >Plazo de Pago:</label
-            >
-            <div class="col-sm-4">
-              <select id="plazoPago1" name="plazoPago1" class="form-control">
-                <option disabled selected>Selecciona una opción</option>
-                <option>Contado</option>
-                <option>8 Días</option>
-                <option>15 Días</option>
-                <option>30 Días</option>
-                <option>45 Días</option>
-                <option>60 Días</option>
-                <option>90 Días</option>
-                <option>120 Días</option>
+                <option value="" disabled selected>Selecciona una opción</option>
               </select>
             </div>
           </div>
@@ -419,10 +418,7 @@
             >
             <div class="col-sm-4">
               <select id="moneda" name="moneda" class="form-control">
-                <option disabled selected>Selecciona una opción</option>
-                <option>Dolares</option>
-                <option>Euros</option>
-                <option>Pesos Colombianos</option>
+                <option value="" disabled selected>Selecciona una opción</option>
               </select>
             </div>
           </div>
@@ -441,28 +437,7 @@
                 name="condicionPago"
                 class="form-control"
               >
-                <option disabled selected>Selecciona una opción</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Fila Plazo de Pago -->
-
-          <div class="row g-3 align-items-center" style="display: none;">
-            <label for="plazoPago" class="col-sm-2 col-form-label offset-md-1"
-              >Plazo de Pago:</label
-            >
-            <div class="col-sm-4">
-              <select id="plazoPago" name="plazoPago" class="form-control">
-                <option disabled selected>Selecciona una opción</option>
-                <option>Contado</option>
-                <option>8 Días</option>
-                <option>15 Días</option>
-                <option>30 Días</option>
-                <option>45 Días</option>
-                <option>60 Días</option>
-                <option>90 Días</option>
-                <option>120 Días</option>
+                <option value="" disabled selected>Selecciona una opción</option>
               </select>
             </div>
           </div>
@@ -480,10 +455,7 @@
                 name="tipoactividad"
                 class="form-control"
               >
-                <option disabled selected>Selecciona una opción</option>
-                <option>Productor</option>
-                <option>Comercializador</option>
-                <option>Servicios</option>
+                <option value="" disabled selected>Selecciona una opción</option>
               </select>
             </div>
           </div>
@@ -510,7 +482,6 @@
                   name="FormularioNatural"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileNatural(this)"
                 />
                 <label class="custom-file-label" for="customFile"
                   >Formulario de registro de Proveedores debidamente
@@ -518,18 +489,7 @@
                 >
               </div>
             </div>
-            <div
-              id="cargandoformularioNatural"
-              class="col-md-2"
-              style="display: none"
-            >
-              <img
-                src="https://acegif.com/wp-content/uploads/loading-25.gif"
-                alt="Cargando"
-                width="30px"
-                height="30px"
-              />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
 
           <!--Subir archivo de cedula de Ciudadania-->
@@ -541,25 +501,13 @@
                   name="copiacedula"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileNatural(this)"
                 />
                 <label class="custom-file-label" for="customFile"
                   >Copia de la Cédula de Ciudadanía</label
                 >
               </div>
             </div>
-            <div
-              id="cargandocedulaNatural"
-              class="col-md-2"
-              style="display: none"
-            >
-              <img
-                src="https://acegif.com/wp-content/uploads/loading-25.gif"
-                alt="Cargando"
-                width="30px"
-                height="30px"
-              />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
 
           <!--Subir RUT-->
@@ -571,7 +519,6 @@
                   name="copiaRut"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileNatural(this)"
                 />
                 <label class="custom-file-label" for="customFile"
                   >Copia de RUT actualizado en sus responsabilidades tributarias
@@ -579,14 +526,7 @@
                 >
               </div>
             </div>
-            <div id="cargandoRutNatural" class="col-md-2" style="display: none">
-              <img
-                src="https://acegif.com/wp-content/uploads/loading-25.gif"
-                alt="Cargando"
-                width="30px"
-                height="30px"
-              />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
 
           <!-- subirCertificación Bancaria no mayor a 90 días.-->
@@ -598,25 +538,13 @@
                   name="certBancariaNatural"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileNatural(this)"
                 />
                 <label class="custom-file-label" for="customFile"
                   >Certificación Bancaria no mayor a 90 días.</label
                 >
               </div>
             </div>
-            <div
-              id="cargandoCbancariaNatural"
-              class="col-md-2"
-              style="display: none"
-            >
-              <img
-                src="https://acegif.com/wp-content/uploads/loading-25.gif"
-                alt="Cargando"
-                width="30px"
-                height="30px"
-              />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
 
           <!-- Copia de certificaciones que posea BASC, ISO, etc.-->
@@ -628,28 +556,16 @@
                   name="certificaciones"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileNatural(this)"
                 />
                 <label class="custom-file-label" for="customFile"
                   >Copia de certificaciones que posea BASC, ISO, etc.</label
                 >
               </div>
             </div>
-            <div
-              id="cargandoCertificacionesNatural"
-              class="col-md-2"
-              style="display: none"
-            >
-              <img
-                src="https://acegif.com/wp-content/uploads/loading-25.gif"
-                alt="Cargando"
-                width="30px"
-                height="30px"
-              />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
 
-          <!-- Acuerdo de seguridad (opcional) -->
+          <!-- Acuerdo de seguridad -->
           <div class="row g-3">
             <div class="col-md-8">
               <div class="custom-file">
@@ -658,25 +574,13 @@
                   name="acuerdoSeguridadNatural"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileNatural(this)"
                 />
                 <label class="custom-file-label" for="customFile"
-                  >Acuerdo de seguridad (opcional)</label
+                  >Acuerdo de seguridad</label
                 >
               </div>
             </div>
-            <div
-              id="cargandoAcuerdoSeguridadNatural"
-              class="col-md-2"
-              style="display: none"
-            >
-              <img
-                src="https://acegif.com/wp-content/uploads/loading-25.gif"
-                alt="Cargando"
-                width="30px"
-                height="30px"
-              />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
         </div>
 
@@ -694,7 +598,6 @@
                   name="Formulariojuridico"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileJuridica(this)"
                 />
                 <label class="custom-file-label" for="customFile"
                   >Formulario de registro de Proveedores debidamente
@@ -702,18 +605,7 @@
                 >
               </div>
             </div>
-            <div
-              id="cargandoformatoJuridica"
-              class="col-md-2"
-              style="display: none"
-            >
-              <img
-                src="https://acegif.com/wp-content/uploads/loading-25.gif"
-                alt="Cargando"
-                width="30px"
-                height="30px"
-              />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
 
           <!--Subir archivo de Certificado Existencia y Representación Legal no mayor a 30 días.-->
@@ -725,7 +617,6 @@
                   name="certificadoExistencia"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileJuridica(this)"
                 />
                 <label class="custom-file-label" for="customFile"
                   >Certificado Existencia y Representación Legal no mayor a 30
@@ -733,18 +624,7 @@
                 >
               </div>
             </div>
-            <div
-              id="cargandocertificadoJuridica"
-              class="col-md-2"
-              style="display: none"
-            >
-              <img
-                src="https://acegif.com/wp-content/uploads/loading-25.gif"
-                alt="Cargando"
-                width="30px"
-                height="30px"
-              />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
 
           <!--Subir cédula del Representante legal.-->
@@ -756,25 +636,13 @@
                   name="representanteLegal"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileJuridica(this)"
                 />
                 <label class="custom-file-label" for="customFile"
                   >Copia de cédula del Representante legal.</label
                 >
               </div>
             </div>
-            <div
-              id="cargandocedulaJuridica"
-              class="col-md-2"
-              style="display: none"
-            >
-              <img
-                src="https://acegif.com/wp-content/uploads/loading-25.gif"
-                alt="Cargando"
-                width="30px"
-                height="30px"
-              />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
 
           <!-- subir Copia de RUT no mayor a 30 días.-->
@@ -786,7 +654,6 @@
                   name="RUT"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileJuridica(this)"
                 />
                 <label class="custom-file-label" for="customFile"
                   >Copia de RUT actualizado en sus responsabilidades tributarias
@@ -794,18 +661,7 @@
                 >
               </div>
             </div>
-            <div
-              id="cargandorutJuridica"
-              class="col-md-2"
-              style="display: none"
-            >
-              <img
-                src="https://acegif.com/wp-content/uploads/loading-25.gif"
-                alt="Cargando"
-                width="30px"
-                height="30px"
-              />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
 
           <!-- subir Copia de RUT no mayor a 30 días.-->
@@ -817,25 +673,13 @@
                   name="certBancariaJuridica"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileJuridica(this)"
                 />
                 <label class="custom-file-label" for="customFile"
                   >Certificación Bancaria no mayor a 90 días.</label
                 >
               </div>
             </div>
-            <div
-              id="cargandoCbancariaJuridica"
-              class="col-md-2"
-              style="display: none"
-            >
-              <img
-                src="https://acegif.com/wp-content/uploads/loading-25.gif"
-                alt="Cargando"
-                width="30px"
-                height="30px"
-              />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
 
           <!-- Copia de certificaciones que posea BASC, ISO, etc.-->
@@ -847,28 +691,16 @@
                   name="certBASC"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileJuridica(this)"
                 />
                 <label class="custom-file-label" for="customFile"
                   >Copia de certificaciones que posea BASC, ISO, etc.</label
                 >
               </div>
             </div>
-            <div
-              id="cargandocertificacionesJuridica"
-              class="col-md-2"
-              style="display: none"
-            >
-              <img
-                src="https://acegif.com/wp-content/uploads/loading-25.gif"
-                alt="Cargando"
-                width="30px"
-                height="30px"
-              />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
 
-          <!-- Acuerdo de seguridad (opcional) -->
+          <!-- Acuerdo de seguridad -->
           <div class="row g-3">
             <div class="col-md-8">
               <div class="custom-file">
@@ -877,25 +709,13 @@
                   name="acuerdoSeguridadJuridica"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileJuridica(this)"
                 />
                 <label class="custom-file-label" for="customFile"
-                  >Acuerdo de seguridad (opcional)</label
+                  >Acuerdo de seguridad</label
                 >
               </div>
             </div>
-            <div
-              id="cargandoAcuerdoSeguridadJuridica"
-              class="col-md-2"
-              style="display: none"
-            >
-              <img
-                src="https://acegif.com/wp-content/uploads/loading-25.gif"
-                alt="Cargando"
-                width="30px"
-                height="30px"
-              />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
         </div>
 
@@ -913,16 +733,13 @@
                   name="acuerdoTrabajo"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileTaller(this)"
                 />
                 <label class="custom-file-label" for="customFile"
                   >Acuerdo de servicio</label
                 >
               </div>
             </div>
-            <div id="cargandoAcuerdoTrabajo" class="col-md-2" style="display: none">
-              <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px" />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
 
           <!--Cédula o RUT-->
@@ -934,16 +751,13 @@
                   name="cedulaRutTaller"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileTaller(this)"
                 />
                 <label class="custom-file-label" for="customFile"
                   >Cédula o RUT</label
                 >
               </div>
             </div>
-            <div id="cargandoCedulaRutTaller" class="col-md-2" style="display: none">
-              <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px" />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
 
           <!--Certificación Bancaria-->
@@ -955,19 +769,16 @@
                   name="certBancariaTaller"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileTaller(this)"
                 />
                 <label class="custom-file-label" for="customFile"
                   >Certificación Bancaria no mayor a 90 días.</label
                 >
               </div>
             </div>
-            <div id="cargandoCbancariaTaller" class="col-md-2" style="display: none">
-              <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px" />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
 
-          <!--Acuerdo de seguridad (opcional)-->
+          <!--Acuerdo de seguridad-->
           <div class="row g-3">
             <div class="col-md-8">
               <div class="custom-file">
@@ -976,16 +787,13 @@
                   name="acuerdoSeguridadTaller"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileTaller(this)"
                 />
                 <label class="custom-file-label" for="customFile"
-                  >Acuerdo de seguridad (opcional)</label
+                  >Acuerdo de seguridad</label
                 >
               </div>
             </div>
-            <div id="cargandoAcuerdoSeguridadTaller" class="col-md-2" style="display: none">
-              <img src="https://acegif.com/wp-content/uploads/loading-25.gif" alt="Cargando" width="30px" height="30px" />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
         </div>
       </fieldset>
@@ -1005,25 +813,13 @@
                   name="RegistroFiscal"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileExterior(this)"
                 />
                 <label class="custom-file-label" for="customFile"
                   >Registro Fiscal</label
                 >
               </div>
             </div>
-            <div
-              id="cargandoRegistroFiscal"
-              class="col-md-2"
-              style="display: none"
-            >
-              <img
-                src="https://acegif.com/wp-content/uploads/loading-25.gif"
-                alt="Cargando"
-                width="30px"
-                height="30px"
-              />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
 
           <!--Subir archivo de Certificado Existencia y Representación Legal no mayor a 30 días.-->
@@ -1035,25 +831,13 @@
                   name="certificadoBancarioExterior"
                   class="custom-file-input"
                   id="customFile"
-                  onchange="saveFileExterior(this)"
                 />
                 <label class="custom-file-label" for="customFile"
                   >Certificado Bancaria</label
                 >
               </div>
             </div>
-            <div
-              id="cargandocertificadoBancarioExterior"
-              class="col-md-2"
-              style="display: none"
-            >
-              <img
-                src="https://acegif.com/wp-content/uploads/loading-25.gif"
-                alt="Cargando"
-                width="30px"
-                height="30px"
-              />
-            </div>
+            <div class="col-md-4 estado-archivo"></div>
           </div>
         </div>
       </fieldset>
@@ -1073,29 +857,27 @@
             id="nombreContactoProgen"
             name="nombreContactoProgen"
             class="form-control col-sm-4"
-            onchange="contactoProgenOnchange(this)"
             requerid
           >
             <option value="" disabled selected>Selecciona un nombre</option>
           </select>
         </div>
 
+        <!-- Los talleres no eligen contacto: PROGEN les asigna el de talleres -->
+        <div id="filaContactoTaller" class="row g-3 align-items-center" style="display: none">
+          <div class="col-md-8 offset-md-1 col-form-label">
+            Tu contacto en PROGEN será el responsable de talleres aliados.
+          </div>
+        </div>
+
+        <!-- Autorización de tratamiento de datos (texto de GET /formulario) -->
         <div class="row g-3 align-items-center">
-          <label
-            for="emailContacto"
-            class="col-sm-2 col-form-label offset-md-1"
-            style="margin-right: 12px"
-            >Email Contacto:</label
-          >
-          <input
-            id="emailContacto"
-            name="emailContacto"
-            class="form-control col-sm-4 email-input"
-            type="email"
-            placeholder="Email de contacto de la persona de PROGEN"
-            readonly
-            requerid
-          />
+          <div class="col-md-10 offset-md-1">
+            <div class="form-check">
+              <input id="aceptaTratamientoDatos" type="checkbox" class="form-check-input" />
+              <label id="textoAutorizacion" for="aceptaTratamientoDatos" class="form-check-label"></label>
+            </div>
+          </div>
         </div>
         <div class="row">
           <div class="col-md-8 offset-md-1">
@@ -1104,10 +886,9 @@
               id="boton"
               type="button"
               class="btn btn-lg btn-success"
-              data-toggle="modal"
-              data-target="#exampleModal"
               value="Enviar Registro"
-              onclick="validaciones()"
+              onclick="submitForm()"
+              disabled
             />
           </div>
         </div>
@@ -1139,7 +920,16 @@
             <div id="mensaje" class="modal-body"></div>
             <div class="modal-footer">
               <button
-                type="sumbit"
+                id="botonRecargar"
+                type="button"
+                class="btn btn-outline-primary"
+                onclick="location.reload()"
+                style="display: none"
+              >
+                Recargar
+              </button>
+              <button
+                type="button"
                 class="btn btn-success"
                 data-dismiss="modal"
               >
@@ -1178,62 +968,13 @@
     ></script>
     <!-- Select2 (desplegables con buscador) -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script src="./js/config.js"></script>
     <script src="./js/datos.js"></script>
     <script src="./js/formato.js"></script>
     <script src="./js/onchange.js"></script>
+    <script src="./js/archivos.js"></script>
     <script src="./js/main.js"></script>
     <script src="./js/validaciones.js"></script>
     <script src="./js/init.js"></script>
-    <script>
-      function mostrarCargueJuridica(respuesta) {
-        if (respuesta == "Done formato1") {
-          document.getElementById("cargandoformatoJuridica").innerHTML =
-            '<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
-        }
-        if (respuesta == "Done formato2") {
-          document.getElementById("cargandocertificadoJuridica").innerHTML =
-            '<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
-        }
-        if (respuesta == "Done formato3") {
-          document.getElementById("cargandocedulaJuridica").innerHTML =
-            '<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
-        }
-        if (respuesta == "Done formato4") {
-          document.getElementById("cargandorutJuridica").innerHTML =
-            '<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
-        }
-        if (respuesta == "Done formato5") {
-          document.getElementById("cargandoCbancariaJuridica").innerHTML =
-            '<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
-        }
-        if (respuesta == "Done formato6") {
-          document.getElementById("cargandocertificacionesJuridica").innerHTML =
-            '<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
-        }
-      }
-
-      function mostrarCargueNatural(respuesta) {
-        if (respuesta == "Done formato1") {
-          document.getElementById("cargandoformularioNatural").innerHTML =
-            '<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
-        }
-        if (respuesta == "Done formato2") {
-          document.getElementById("cargandocedulaNatural").innerHTML =
-            '<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
-        }
-        if (respuesta == "Done formato3") {
-          document.getElementById("cargandoRutNatural").innerHTML =
-            '<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
-        }
-        if (respuesta == "Done formato4") {
-          document.getElementById("cargandoCbancariaNatural").innerHTML =
-            '<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
-        }
-        if (respuesta == "Done formato5") {
-          document.getElementById("cargandoCertificacionesNatural").innerHTML =
-            '<img src="http://assets.stickpng.com/thumbs/5aa78e267603fc558cffbf1a.png" alt="Cargado" width="20px" height="20px">';
-        }
-      }
-    </script>
   </body>
 </html>

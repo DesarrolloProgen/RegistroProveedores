@@ -239,3 +239,106 @@
   @media (prefers-reduced-motion: reduce){
     #indicadorScroll .flecha{ animation: none; }
   }
+
+  /* ---------------------- BACKEND: CARGA, ESTADOS Y ERRORES ---------------------- */
+
+  /* Spinner en CSS (reemplaza el GIF externo) */
+  .spinner{
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    vertical-align: middle;
+    border: 3px solid #d5dbe2;
+    border-top-color: #2f6fed;
+    border-radius: 50%;
+    animation: girar 0.8s linear infinite;
+  }
+  .spinner-sm{
+    width: 14px;
+    height: 14px;
+    border-width: 2px;
+    margin-right: 6px;
+  }
+  @keyframes girar{
+    to{ transform: rotate(360deg); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .spinner{ animation-duration: 2s; }
+  }
+
+  /* Trampa para bots: fuera de pantalla, nunca visible */
+  .trampa{
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  /* Aviso de error al cargar el formulario y pantalla de confirmación */
+  #errorCatalogo,
+  #confirmacion{
+    max-width: 980px;
+    margin: 24px auto;
+  }
+  #confirmacion{
+    padding: 0 12px;
+  }
+  .numero-registro{
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #1e7e34;
+    margin-bottom: 6px;
+  }
+
+  /* Estado de cada documento (columna derecha de la tarjeta) */
+  .estado-archivo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 46px;
+    color: #5a6b7b;
+  }
+  .estado-archivo .requisito{
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #9aa6b2;
+  }
+  .estado-archivo .detalle-archivo{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .estado-archivo .btn-link{
+    font-size: inherit;
+  }
+  #archivos .row.g-3.fila-error,
+  #archivosExterior .row.g-3.fila-error{
+    border-color: #ff3c37;
+    background-color: #fff6f6;
+  }
+  .fila-error .detalle-archivo{
+    color: #c82333;
+  }
+
+  /* Mensajes del backend junto a cada campo */
+  .mensaje-campo{
+    color: #c82333;
+    font-size: 0.85em;
+    padding-top: 2px;
+  }
+  .select2-container .select2-selection.is-invalid{
+    border-color: #dc3545;
+  }
+  .form-check .form-check-label{
+    font-size: smaller;
+  }
+
+  /* Lo que revisa la IA en cada documento (texto de documentosPorCaso[].validacionIa) */
+  .requisito-ia{
+    display: block;
+    margin-top: 4px;
+    color: #5a6b7b;
+  }

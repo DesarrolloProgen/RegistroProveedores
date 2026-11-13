@@ -1,42 +1,42 @@
 /* ------------------------------------------------------------------------------------- */
 /*                                 FUNCIONES ONCHAGE                                     */
 /* ------------------------------------------------------------------------------------- */
-/* Funciones Onchange para las condiciones de mostrar diferentes 
-                                     DIV dependiendo de selecciones por parte del usuario*/
+/* Funciones Onchange para las condiciones de mostrar diferentes
+                                     DIV dependiendo de selecciones por parte del usuario.
+   Las listas y las reglas (contactos, documentos por caso) salen de GET /formulario.  */
 
-/*                       CONTACTO PROGEN: AUTOCOMPLETAR EMAIL                            */
-let CONTACTOS_PROGEN_ACTIVOS = CONTACTOS_PROGEN_EXTERIOR;
+const TALLER = "Taller de Servicio/Mecánico aliado";
 
-function contactoProgenOnchange(selected) {
-  document.getElementById("emailContacto").value = CONTACTOS_PROGEN_ACTIVOS[selected.value] || "";
+/* El país decide el tipo de proveedor: COLOMBIA es nacional; cualquier otro, del exterior. */
+function esExterior() {
+  const pais = document.getElementById("pais").value;
+  return !!pais && pais.trim().toUpperCase() !== "COLOMBIA";
 }
 
-/* Reconstruye el desplegable de "Nombre Contacto" según el tipo de proveedor:
-   - Taller de Servicio/Mecánico aliado -> se oculta el nombre, solo se muestra el correo fijo
-   - Proveedor Nacional (Colombia)      -> lista de contactos nacionales
-   - Proveedor Exterior                -> lista de contactos de exportaciones            */
+function esTaller() {
+  return document.getElementById("t_empresa").value === TALLER;
+}
+
+/*                       CONTACTO PROGEN: SEGÚN EL TIPO DE PROVEEDOR                      */
+/* - Taller de Servicio/Mecánico aliado -> no elige: el backend le asigna el de talleres
+   - Proveedor Nacional (Colombia)      -> contactosProgen.nacional
+   - Proveedor Exterior                -> contactosProgen.exterior                       */
 function actualizarContactoProgen() {
   const filaNombre = document.getElementById("filaNombreContactoProgen");
+  const filaTaller = document.getElementById("filaContactoTaller");
   const selectNombre = document.getElementById("nombreContactoProgen");
-  const inputEmail = document.getElementById("emailContacto");
-  const esTaller = document.getElementById("t_empresa").value === "Taller de Servicio/Mecánico aliado";
-  const esColombia = document.getElementById("pais").value === "COLOMBIA";
 
-  if (esTaller) {
-    filaNombre.style.display = "none";
-    selectNombre.value = "";
-    inputEmail.value = CONTACTO_PROGEN_TALLER.email;
-    return;
-  }
+  filaNombre.style.display = esTaller() ? "none" : "";
+  filaTaller.style.display = esTaller() ? "" : "none";
+  if (!catalogo) return;
 
-  filaNombre.style.display = "";
-  CONTACTOS_PROGEN_ACTIVOS = esColombia ? CONTACTOS_PROGEN_NACIONAL : CONTACTOS_PROGEN_EXTERIOR;
-
-  selectNombre.innerHTML = '<option value="" disabled selected>Selecciona un nombre</option>';
-  Object.keys(CONTACTOS_PROGEN_ACTIVOS).forEach(function (nombre) {
-    selectNombre.appendChild(new Option(nombre, nombre));
-  });
-  inputEmail.value = "";
+  const contactos = catalogo.contactosProgen[esExterior() ? "exterior" : "nacional"];
+  llenarSelect(
+    selectNombre,
+    contactos.map(function (c) {
+      return { valor: c.id, texto: c.nombre };
+    }),
+  );
 }
 
 /*                  CONDICIÓN DE PAGO: SOLO VISIBLE EN INSCRIPCIÓN                        */
@@ -54,59 +54,8 @@ function actualizarCondicionPago() {
 }
 
 /*                            DEPENDIENTO DEL TIPO DE PERSONA                            */
-function tipopersonaOnchange(selected) {
-  divNatural = document.getElementById("Persona_Natural");
-  divJuridica = document.getElementById("Persona_Juridica");
-  divTaller = document.getElementById("Taller_Servicio");
-  if (selected.value == "Persona Natural") {
-    divNatural.style.display = "";
-    divJuridica.style.display = "none";
-    divTaller.style.display = "none";
-    document.getElementsByName("FormularioNatural")[0].required = true;
-    document.getElementsByName("copiacedula")[0].required = true;
-    document.getElementsByName("copiaRut")[0].required = true;
-    document.getElementsByName("certBancariaNatural")[0].required = true;
-    document.getElementsByName("Formulariojuridico")[0].required = false;
-    document.getElementsByName("certificadoExistencia")[0].required = false;
-    document.getElementsByName("representanteLegal")[0].required = false;
-    document.getElementsByName("RUT")[0].required = false;
-    document.getElementsByName("certBancariaJuridica")[0].required = false;
-    document.getElementsByName("acuerdoTrabajo")[0].required = false;
-    document.getElementsByName("cedulaRutTaller")[0].required = false;
-    document.getElementsByName("certBancariaTaller")[0].required = false;
-  } else if (selected.value == "Persona Jurídica") {
-    divNatural.style.display = "none";
-    divJuridica.style.display = "";
-    divTaller.style.display = "none";
-    document.getElementsByName("Formulariojuridico")[0].required = true;
-    document.getElementsByName("certificadoExistencia")[0].required = true;
-    document.getElementsByName("representanteLegal")[0].required = true;
-    document.getElementsByName("RUT")[0].required = true;
-    document.getElementsByName("certBancariaJuridica")[0].required = true;
-    document.getElementsByName("FormularioNatural")[0].required = false;
-    document.getElementsByName("copiacedula")[0].required = false;
-    document.getElementsByName("copiaRut")[0].required = false;
-    document.getElementsByName("certBancariaNatural")[0].required = false;
-    document.getElementsByName("acuerdoTrabajo")[0].required = false;
-    document.getElementsByName("cedulaRutTaller")[0].required = false;
-    document.getElementsByName("certBancariaTaller")[0].required = false;
-  } else if (selected.value == "Taller de Servicio/Mecánico aliado") {
-    divNatural.style.display = "none";
-    divJuridica.style.display = "none";
-    divTaller.style.display = "";
-    document.getElementsByName("acuerdoTrabajo")[0].required = true;
-    document.getElementsByName("cedulaRutTaller")[0].required = true;
-    document.getElementsByName("certBancariaTaller")[0].required = true;
-    document.getElementsByName("FormularioNatural")[0].required = false;
-    document.getElementsByName("copiacedula")[0].required = false;
-    document.getElementsByName("copiaRut")[0].required = false;
-    document.getElementsByName("certBancariaNatural")[0].required = false;
-    document.getElementsByName("Formulariojuridico")[0].required = false;
-    document.getElementsByName("certificadoExistencia")[0].required = false;
-    document.getElementsByName("representanteLegal")[0].required = false;
-    document.getElementsByName("RUT")[0].required = false;
-    document.getElementsByName("certBancariaJuridica")[0].required = false;
-  }
+function tipopersonaOnchange() {
+  actualizarDocumentos();
   actualizarContactoProgen();
 }
 /*                            DEPENDIENTO DEL TIPO DE IDENTIFICACION                            */
@@ -129,7 +78,7 @@ function tipoindentificacionOnchange(selected) {
    - Colombia            -> "Proveedor Nacional"  (flujo nacional)
    - Cualquier otro país -> "Proveedor Exterior"  (flujo exterior)            */
 
-function paisOnchange(selected) {
+function paisOnchange() {
   const divcontacto = document.getElementById("contacto");
   const divexterior = document.getElementById("exterior");
   const divnivel = document.getElementById("contacto_nivel_1_2");
@@ -137,14 +86,9 @@ function paisOnchange(selected) {
   const divarchivosExterior = document.getElementById("archivosExterior");
   const divdatos = document.getElementById("datos");
   const filaCiudadColombia = document.getElementById("filaCiudadColombia");
-  const tipoProveedor = document.getElementById("t_proveedor");
 
-  const esColombia = selected.value === "COLOMBIA";
-
-  if (esColombia) {
+  if (!esExterior()) {
     /* ----------------------------- PROVEEDOR NACIONAL ----------------------------- */
-    tipoProveedor.value = "Proveedor Nacional";
-
     filaCiudadColombia.style.display = "";
     divcontacto.style.display = "";
     divnivel.style.display = "";
@@ -155,8 +99,6 @@ function paisOnchange(selected) {
     divarchivosExterior.style.display = "none";
   } else {
     /* ----------------------------- PROVEEDOR EXTERIOR ----------------------------- */
-    tipoProveedor.value = "Proveedor Exterior";
-
     filaCiudadColombia.style.display = "none";
     divcontacto.style.display = "";
     divexterior.style.display = "";
@@ -165,9 +107,7 @@ function paisOnchange(selected) {
     divarchivos.style.display = "none";
     divnivel.style.display = "none";
     divdatos.style.display = "none";
-
-    document.getElementsByName("RegistroFiscal")[0].required = false;
-    document.getElementsByName("certificadoBancarioExterior")[0].required = false;
   }
+  actualizarDocumentos();
   actualizarContactoProgen();
 }

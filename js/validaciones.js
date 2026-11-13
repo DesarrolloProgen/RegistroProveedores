@@ -1,343 +1,229 @@
 /* ------------------------------------------------------------------------------------- */
-/*                                       VARIABLES                                       */
+/*                                       VALIDACIONES                                    */
 /* ------------------------------------------------------------------------------------- */
-var tipo_registro = document.getElementById("t_registro");
-var tipo_empresa = document.getElementById("t_empresa");
-var tipo_proveedor = document.getElementById("t_proveedor");
+/* Revisan en el navegador lo mismo que exige el backend (registroPublicoSchema), para
+   avisar antes de enviar. Son sólo una ayuda: el backend vuelve a validar todo y su
+   `message` es el que manda. */
 
-/* Variables Provedores nivel 1 y 2*/
+const PESOS_DV = [3, 7, 13, 17, 19, 23, 29, 37, 41, 43, 47, 53, 59, 67, 71];
 
-var tipo_identificacion = document.getElementById("t_identificacion");
-var cedula = document.getElementById("cc");
-var numeroNIT = document.getElementById("numeroNIT");
-var codigoNIT = document.getElementById("codigoNIT");
-var nit = numeroNIT.value + "-" + codigoNIT.value;
-var nombre_usuario = document.getElementById("nombreUsuario");
-var nombre_contacto_nivel = document.getElementById("nombreContacto1");
-var telefono_contacto_nivel = document.getElementById("telefonoContacto1");
-var email_contacto_nivel = document.getElementById("correoContacto1");
-var plazo_pago_nivel = document.getElementById("plazoPago1");
-var condicionPagoNacional = document.getElementById("condicionPagoNacional");
-
-/* Variables comunes de ubicación */
-
-var pais = document.getElementById("pais");
-var ciudad = document.getElementById("ciudad"); // Ciudad (Colombia / nacional)
-
-/*Variables Proveedores Externos */
-
-var nombre_proveedor_exterior = document.getElementById("nombreProveedorExterior");
-var ciudad_exterior = document.getElementById("ciudadExterior");
-var direccion_exterior = document.getElementById("direccion");
-var nombre_contacto_externo = document.getElementById("nombreContacto");
-var telefono_contacto_externo = document.getElementById("telefonoContacto");
-var email_contacto_externo = document.getElementById("correoContacto");
-var cargo = document.getElementById("cargo");
-var moneda = document.getElementById("moneda");
-var plazoPago = document.getElementById("plazoPago");
-var condicionPago = document.getElementById("condicionPago");
-var tipoactividad = document.getElementById("tipoactividad");
-
-/* Variables de contacto con PROGEN*/
-
-var nombre_contactoProgen = document.getElementById("nombreContactoProgen");
-var email_contactoProgen = document.getElementById("emailContacto");
-
-/* Variables para el cargue de archivos */
-
-var natural = [];
-var juridica = [];
-var exterior = [];
-var taller = [];
-
-
-const PersonaNatural = {
-  FormularioNatural: "Formulario registro",
-  copiacedula: "Copia de Cedula",
-  copiaRut: "Copia Rut",
-  certBancariaNatural: "Certificacion Bancaria",
-  certificaciones: "Certificaciones",
-  acuerdoSeguridadNatural: "Acuerdo de Seguridad"
+/** Dígito de verificación de la DIAN para un NIT (sólo los dígitos, sin el DV). */
+function calcularDV(nit) {
+  const digitos = nit.replace(/\D/g, "").split("").reverse();
+  const suma = digitos.reduce(function (total, d, i) {
+    return total + Number(d) * (PESOS_DV[i] || 0);
+  }, 0);
+  const residuo = suma % 11;
+  return residuo > 1 ? 11 - residuo : residuo;
 }
 
-const PersonaJuridica = {
-  Formulariojuridico: "Formulario registro",
-  certificadoExistencia: "Camara y Comercio",
-  representanteLegal: "Copia de Cedula",
-  RUT: "Copia Rut",
-  certBancariaJuridica: "Certificacion Bancaria",
-  certBASC: "Certificaciones",
-  acuerdoSeguridadJuridica: "Acuerdo de Seguridad"
+/* Validacion de Email general */
+
+function validar_email(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
-const PersonaExterior = {
-  RegistroFiscal: "Registro Fiscal",
-  certificadoBancarioExterior: "Certificacion Bancaria"
+
+function validar_telefono(telefono) {
+  return /^\+?[\d\s()-]{7,20}$/.test(telefono);
 }
-const TallerServicio = {
-  acuerdoTrabajo: "Acuerdo de Trabajo",
-  cedulaRutTaller: "Cedula o RUT",
-  certBancariaTaller: "Certificacion Bancaria",
-  acuerdoSeguridadTaller: "Acuerdo de Seguridad"
+
+/* ------------------------------------------------------------------------------------- */
+/*                         CAMPOS DEL CONTRATO → ELEMENTOS DEL HTML                       */
+/* ------------------------------------------------------------------------------------- */
+
+/** Para el caso actual, el id del elemento de cada campo de POST /. */
+function camposDelCaso() {
+  const campos = {
+    tipoRegistro: "t_registro",
+    tipoEmpresa: "t_empresa",
+    pais: "pais",
+    contactoProgenId: "nombreContactoProgen",
+    aceptaTratamientoDatos: "aceptaTratamientoDatos",
+  };
+  if (esExterior()) {
+    return Object.assign(campos, {
+      ciudad: "ciudadExterior",
+      nombre: "nombreProveedorExterior",
+      direccion: "direccion",
+      contactoNombre: "nombreContacto",
+      contactoTelefono: "telefonoContacto",
+      contactoCorreo: "correoContacto",
+      contactoCargo: "cargo",
+      moneda: "moneda",
+      tipoActividad: "tipoactividad",
+      condicionPagoId: "condicionPago",
+    });
+  }
+  const nit = document.getElementById("t_identificacion").value === "NIT";
+  return Object.assign(campos, {
+    ciudad: "ciudad",
+    nombre: "nombreUsuario",
+    tipoIdentificacion: "t_identificacion",
+    numeroIdentificacion: nit ? "numeroNIT" : "cc",
+    digitoVerificacion: "codigoNIT",
+    contactoNombre: "nombreContacto1",
+    contactoTelefono: "telefonoContacto1",
+    contactoCorreo: "correoContacto1",
+    condicionPagoId: "condicionPagoNacional",
+  });
 }
+
+function valorCampo(campo) {
+  const id = camposDelCaso()[campo];
+  return id ? document.getElementById(id).value.trim() : "";
+}
+
+/* ------------------------------------------------------------------------------------- */
+/*                               MARCAS JUNTO A LOS CAMPOS                                */
+/* ------------------------------------------------------------------------------------- */
+
+function limpiarMarcas() {
+  document.querySelectorAll("#formulario .is-invalid").forEach(function (el) {
+    el.classList.remove("is-invalid");
+  });
+  document.querySelectorAll("#formulario .mensaje-campo").forEach(function (el) {
+    el.remove();
+  });
+}
+
+/** Marca un campo de POST / (`details[].field` del backend) con su mensaje. */
+function marcarCampo(campo, mensaje) {
+  const id = camposDelCaso()[campo];
+  const el = id && document.getElementById(id);
+  if (!el) return false;
+  /* Los desplegables con buscador (Select2) se ven en su contenedor */
+  const visible = $(el).hasClass("select2-hidden-accessible")
+    ? el.nextElementSibling.querySelector(".select2-selection")
+    : el;
+  visible.classList.add("is-invalid");
+  const casilla = el.closest(".form-check");
+  const fila = casilla || el.closest(".row");
+  if (fila.querySelector('.mensaje-campo[data-campo="' + campo + '"]')) return true;
+  const aviso = document.createElement("div");
+  aviso.className = casilla ? "mensaje-campo" : "mensaje-campo col-md-9 offset-md-3";
+  aviso.setAttribute("data-campo", campo);
+  aviso.textContent = mensaje;
+  fila.appendChild(aviso);
+  return true;
+}
+
+/* Al corregir un campo se quita su marca */
+$(document).on("input change", "#formulario", function (e) {
+  const el = e.target;
+  if (!el || !el.id) return;
+  el.classList.remove("is-invalid");
+  if (el.nextElementSibling && el.nextElementSibling.querySelector) {
+    const select2 = el.nextElementSibling.querySelector(".select2-selection");
+    if (select2) select2.classList.remove("is-invalid");
+  }
+  const campo = Object.keys(camposDelCaso()).find(function (c) {
+    return camposDelCaso()[c] === el.id;
+  });
+  if (campo) {
+    document.querySelectorAll('.mensaje-campo[data-campo="' + campo + '"]').forEach(function (aviso) {
+      aviso.remove();
+    });
+  }
+});
 
 /* ------------------------------------------------------------------------------------- */
 /*                                       VALIDACIONES                                    */
 /* ------------------------------------------------------------------------------------- */
 
-/* Validacion de Email general */
+/** Los problemas de los datos: [{ campo, mensaje }]. Vacío si están completos. */
+function problemasEnDatos() {
+  const problemas = [];
+  const problema = function (campo, mensaje) {
+    problemas.push({ campo: campo, mensaje: mensaje });
+  };
+  const vacio = function (campo) {
+    return valorCampo(campo) === "";
+  };
 
-function validar_email(email) {
-  let regex = /([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-  return regex.test(email) ? true : false;
+  if (vacio("tipoRegistro")) problema("tipoRegistro", "Elige si es inscripción o actualización.");
+  if (vacio("tipoEmpresa")) problema("tipoEmpresa", "Elige el tipo de empresa.");
+  if (vacio("pais")) {
+    problema("pais", "Elige el país.");
+    return problemas;
+  }
+  if (vacio("ciudad")) problema("ciudad", "Escribe la ciudad.");
+
+  if (esExterior()) {
+    if (vacio("nombre")) problema("nombre", "Escribe el nombre o la razón social.");
+    if (vacio("direccion")) problema("direccion", "Escribe la dirección.");
+  } else {
+    const tipo = valorCampo("tipoIdentificacion");
+    const numero = valorCampo("numeroIdentificacion");
+    if (!tipo) problema("tipoIdentificacion", "Elige el tipo de identificación.");
+    else if (!/^\d{5,20}$/.test(numero))
+      problema("numeroIdentificacion", "Escribe el número de identificación sin el dígito de verificación.");
+    else if (tipo === "NIT") {
+      const dv = valorCampo("digitoVerificacion");
+      if (!/^\d$/.test(dv)) problema("digitoVerificacion", "El dígito de verificación es un solo número.");
+      else if (String(calcularDV(numero)) !== dv)
+        problema("digitoVerificacion", "El dígito de verificación no corresponde al NIT; revísalo.");
+    }
+    if (vacio("nombre")) problema("nombre", "Escribe el nombre o la razón social.");
+  }
+
+  if (vacio("contactoNombre")) problema("contactoNombre", "Escribe el nombre de contacto.");
+  if (!validar_telefono(valorCampo("contactoTelefono")))
+    problema("contactoTelefono", "Escribe un teléfono de contacto válido.");
+  if (!validar_email(valorCampo("contactoCorreo"))) problema("contactoCorreo", "El correo no es válido.");
+
+  if (esExterior()) {
+    if (vacio("contactoCargo")) problema("contactoCargo", "Escribe el cargo de la persona de contacto.");
+    if (vacio("moneda")) problema("moneda", "Elige la moneda.");
+    if (vacio("tipoActividad")) problema("tipoActividad", "Elige el tipo de actividad.");
+  }
+  if (esInscripcion() && vacio("condicionPagoId")) problema("condicionPagoId", "Elige la condición de pago.");
+  if (!esTaller() && vacio("contactoProgenId")) problema("contactoProgenId", "Elige tu contacto en PROGEN.");
+  if (!document.getElementById("aceptaTratamientoDatos").checked)
+    problema("aceptaTratamientoDatos", "Debes autorizar el tratamiento de tus datos personales.");
+  return problemas;
 }
 
-/* Validacion de Email empresarial */
-
-function validar_email_progen(email) {
-  let regex1 = /([a-zA-Z0-9_\.\-])+\@((progen)+\.)+(com+\.)+(co)/;
-  let regex2 = /([a-zA-Z0-9_\.\-])+\@((royalcondor)+\.)+(com)/;
-  let regex3 = /([a-zA-Z0-9_\.\-])+\@((colinagro)+\.)+(com+\.)+(co)/;
-  return regex1.test(email) || regex2.test(email) || regex3.test(email) ? true : false;
+/** Categorías requeridas del caso que no tienen archivo elegido ni subido. */
+function documentosSinArchivo() {
+  const caso = casoActual();
+  if (!caso) return [];
+  const conArchivo = inputsDelCaso()
+    .filter(function (input) {
+      return (input.files && input.files[0]) || estadoArchivos[input.name].subido;
+    })
+    .map(function (input) {
+      return categoriaPorCampo[input.name];
+    });
+  return caso.requeridos.filter(function (categoria) {
+    return !conArchivo.includes(categoria);
+  });
 }
 
+/** Revisa el formulario, marca lo que falta y lo muestra. true si se puede enviar. */
 function validaciones() {
-  if (tipo_registro.value == "" || tipo_registro.value == "Selecciona una opción" || tipo_registro.value == null) {
-    document.getElementById("headermensaje").style.background = '#ff3c37';
-    document.getElementById('titulomensaje').innerHTML = 'ERROR';
-    document.getElementById('mensaje').innerHTML = 'Debe seleccionar un tipo de Registro';
-    return false;
+  limpiarMarcas();
+  const problemas = problemasEnDatos();
+  problemas.forEach(function (p) {
+    marcarCampo(p.campo, p.mensaje);
+  });
+  const mensajes = problemas.map(function (p) {
+    return p.mensaje;
+  });
+  /* Tamaño y tipo otra vez antes de subir: el caso pudo cambiar después de elegir el archivo */
+  inputsDelCaso().forEach(function (input) {
+    const file = input.files[0];
+    const problema = file && problemaConArchivo(file, input);
+    if (!problema) return;
+    pintarEstado(input, "rechazado", problema);
+    mensajes.push(documentoDe(input).label + ": " + problema);
+  });
+  const faltantes = documentosSinArchivo();
+  marcarFaltantes(faltantes);
+
+  if (faltantes.length) {
+    mensajes.push("Faltan documentos obligatorios: " + faltantes.map(etiquetaDocumento).join(", ") + ".");
   }
-
-  if (tipo_empresa.value == "" || tipo_empresa.value == "Selecciona una opción" || tipo_empresa.value == null) {
-    document.getElementById("headermensaje").style.background = '#ff3c37';
-    document.getElementById('titulomensaje').innerHTML = 'ERROR';
-    document.getElementById('mensaje').innerHTML = 'Debe seleccionar un tipo de empresa';
-    return false;
-  }
-  if (pais.value == "" || pais.value == "Selecciona un país" || pais.value == null) {
-    document.getElementById("headermensaje").style.background = '#ff3c37';
-    document.getElementById('titulomensaje').innerHTML = 'ERROR';
-    document.getElementById('mensaje').innerHTML = 'Debe seleccionar un país';
-    return false;
-  }
-
-  /* Validaciones Proveedor Nacional (Colombia) */
-
-  if (tipo_proveedor.value == "Proveedor Nacional") {
-
-    if (ciudad.value == "" || ciudad.value == "Selecciona una ciudad" || ciudad.value == null) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe seleccionar una ciudad';
-      return false;
-    }
-
-    if (tipo_identificacion.value == "" || tipo_identificacion.value == "Selecciona una opción" || tipo_identificacion.value == null) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe seleccionar un tipo de identificación';
-      return false;
-    }
-
-    if (tipo_identificacion.value == "CC" && (cedula.value == null || cedula.value == "" || isNaN(parseInt(cedula.value)))) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar su numero de cédula (Solo se aceptan números)';
-      return false;
-    }
-
-    if (tipo_identificacion.value == "NIT" && (numeroNIT.value == null || numeroNIT.value == "" || isNaN(parseInt(numeroNIT.value)))) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar su numero de NIT (Solo se aceptan números)';
-      return false;
-    }
-
-    if (tipo_identificacion.value == "NIT" && (codigoNIT.value == null || codigoNIT.value == "" || isNaN(parseInt(codigoNIT.value)))) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar su codigo de verificación del NIT (Solo se aceptan números)';
-      return false;
-    }
-
-    console.log(numeroNIT.value);
-console.log(codigoNIT.value);
-    if (nombre_usuario.value == "" || nombre_usuario.value == null) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar su nombre';
-      return false;
-    }
-
-    if (nombre_contacto_nivel.value == "" || nombre_contacto_nivel.value == null) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar un nombre de contacto';
-      return false;
-    }
-
-    if (telefono_contacto_nivel.value == "" || telefono_contacto_nivel.value == null || isNaN(parseInt(telefono_contacto_nivel.value))) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar un telefono de contacto';
-      return false;
-    }
-
-    if (email_contacto_nivel.value == "" || email_contacto_nivel.value == null || validar_email(email_contacto_nivel.value) == false) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar el email de la persona de contacto';
-      return false;
-    }
-
-    if (esInscripcion() && (condicionPagoNacional.value == "" || condicionPagoNacional.value == null || condicionPagoNacional.value == "Selecciona una opción")) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe seleccionar una condición de pago ';
-      return false;
-    }
-
-    // if (plazo_pago_nivel.value == "" || plazo_pago_nivel.value == null || plazo_pago_nivel.value == "Selecciona una opción") {
-    //   document.getElementById("headermensaje").style.background = '#ff3c37';
-    //   document.getElementById('titulomensaje').innerHTML = 'ERROR';
-    //   document.getElementById('mensaje').innerHTML = 'Debe seleccionar un metodo de pago';
-    //   return false;
-    // }
-
-    /* Validaciones de Documentos obligatorios según tipo de empresa */
-    if (tipo_empresa.value == "Persona Natural") {
-      let obligatoriosNatural = document.querySelectorAll("#Persona_Natural input[required]");
-      console.log(obligatoriosNatural);
-      for (let i = 0; i < obligatoriosNatural.length; i++) {
-        if (!(natural.find((archivo) => archivo.archivo === PersonaNatural[obligatoriosNatural[i].name]))) {
-          document.getElementById("headermensaje").style.background = '#ff3c37';
-          document.getElementById('titulomensaje').innerHTML = 'ERROR';
-          document.getElementById('mensaje').innerHTML = 'Debe subir un archivo para el documento ' + PersonaNatural[obligatoriosNatural[i].name];
-          return false;
-        }
-      }
-    } else if (tipo_empresa.value == "Taller de Servicio/Mecánico aliado") {
-      let obligatoriosTaller = document.querySelectorAll("#Taller_Servicio input[required]");
-      for (let i = 0; i < obligatoriosTaller.length; i++) {
-        if (!(taller.find((archivo) => archivo.archivo === TallerServicio[obligatoriosTaller[i].name]))) {
-          document.getElementById("headermensaje").style.background = '#ff3c37';
-          document.getElementById('titulomensaje').innerHTML = 'ERROR';
-          document.getElementById('mensaje').innerHTML = 'Debe subir un archivo para el documento ' + TallerServicio[obligatoriosTaller[i].name];
-          return false;
-        }
-      }
-    } else {
-      let obligatoriosJuridica = document.querySelectorAll("#Persona_Juridica input[required]");
-      console.log(obligatoriosJuridica);
-      for (let i = 0; i < obligatoriosJuridica.length; i++) {
-        if (!(juridica.find((archivo) => archivo.archivo === PersonaJuridica[obligatoriosJuridica[i].name]))) {
-          document.getElementById("headermensaje").style.background = '#ff3c37';
-          document.getElementById('titulomensaje').innerHTML = 'ERROR';
-          document.getElementById('mensaje').innerHTML = 'Debe subir un archivo para el documento ' + PersonaJuridica[obligatoriosJuridica[i].name];
-          return false;
-        }
-      }
-    }
-  }
-
-  /* Validaciones Proveedor Exterior */
-
-  if (tipo_proveedor.value == "Proveedor Exterior") {
-    if (nombre_proveedor_exterior.value == "" || nombre_proveedor_exterior.value == null) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar el nombre o razón social del proveedor';
-      return false;
-    }
-
-    if (ciudad_exterior.value == "" || ciudad_exterior.value == null) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar una ciudad';
-      return false;
-    }
-
-    if (direccion_exterior.value == "" || direccion_exterior.value == null) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar una dirección';
-      return false;
-    }
-
-    if (nombre_contacto_externo.value == "" || nombre_contacto_externo.value == null) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar un nombre de contacto';
-      return false;
-    }
-
-    if (telefono_contacto_externo.value == "" || telefono_contacto_externo.value == null || isNaN(parseInt(telefono_contacto_externo.value))) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar el telefono de la persona de contacto (Solo se aceptan números)';
-      return false;
-    }
-
-    if (email_contacto_externo.value == "" || email_contacto_externo.value == null || validar_email(email_contacto_externo.value) == false) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar el correo de la persona de contacto';
-      return false;
-    }
-
-    if (cargo.value == "" || cargo.value == null) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe ingresar un cargo';
-      return false;
-    }
-
-    if (moneda.value == "" || moneda.value == null || moneda.value == "Selecciona una opción") {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe seleccionar un tipo de moneda ';
-      return false;
-    }
-    if (esInscripcion() && (condicionPago.value == "" || condicionPago.value == null || condicionPago.value == "Selecciona una opción")) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe seleccionar una condición de pago ';
-      return false;
-    }
-
-    // if (plazoPago.value == "" || plazoPago.value == null || plazoPago.value == "Selecciona una opción") {
-    //   document.getElementById("headermensaje").style.background = '#ff3c37';
-    //   document.getElementById('titulomensaje').innerHTML = 'ERROR';
-    //   document.getElementById('mensaje').innerHTML = 'Debe seleccionar un plazo de pago ';
-    //   return false;
-    // }
-
-    if (tipoactividad.value == "" || tipoactividad.value == null || tipoactividad == "Selecciona una opción") {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe seleccionar un tipo de actividad ';
-      return false;
-    }
-    if (exterior.length < 1 || exterior == null ) {
-      document.getElementById("headermensaje").style.background = '#ff3c37';
-      document.getElementById('titulomensaje').innerHTML = 'ERROR';
-      document.getElementById('mensaje').innerHTML = 'Debe subir al menos un documento';
-      return false;
-    }
-  }
-
-  if (nombre_contactoProgen.value == "" || nombre_contactoProgen.value == null) {
-    document.getElementById("headermensaje").style.background = '#ff3c37';
-    document.getElementById('titulomensaje').innerHTML = 'ERROR';
-    document.getElementById('mensaje').innerHTML = 'Debe ingresar Nombre de la persona de contacto en Progen';
-    return false;
-  }
-  if (email_contactoProgen.value == "" || email_contactoProgen.value == null || validar_email_progen(email_contactoProgen.value) == false) {
-    document.getElementById("headermensaje").style.background = '#ff3c37';
-    document.getElementById('titulomensaje').innerHTML = 'ERROR';
-    document.getElementById('mensaje').innerHTML = 'Debe ingresar el email de la persona de contacto en Progen';
-    return false;
-  }
-
-  submitForm()
+  if (mensajes.length === 0) return true;
+  mostrarError("Revisa los datos marcados en el formulario.", mensajes);
+  return false;
 }
