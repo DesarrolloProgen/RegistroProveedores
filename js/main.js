@@ -186,6 +186,15 @@ function cerrarMensaje() {
   cerrar();
 }
 
+/** Se resuelve cuando el usuario cierra el modal (OK, la X, Esc o clic fuera). */
+function esperarCierreMensaje() {
+  return new Promise(function (resolver) {
+    $("#exampleModal").one("hidden.bs.modal", function () {
+      resolver();
+    });
+  });
+}
+
 function mostrarConfirmacion(numero) {
   cerrarMensaje();
   document.getElementById("formulario").style.display = "none";
@@ -374,7 +383,14 @@ async function submitForm() {
       } catch (error) {
         if (!error.rechazoIa) throw error;
         rechazarArchivo(documentoActual, error.message);
-        rechazados.push(error.message);
+        rechazados.push(etiqueta + ": " + error.message);
+        // Si quedan más documentos, se avisa del rechazo y se espera a que cierren el mensaje antes de seguir.
+        if (i < pendientes.length - 1) {
+          mostrarError("«" + etiqueta + "» no pasó la verificación: " + error.message, [
+            "Al cerrar este mensaje continuamos con el siguiente documento.",
+          ]);
+          await esperarCierreMensaje();
+        }
       }
     }
     documentoActual = null;
