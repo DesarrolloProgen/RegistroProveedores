@@ -33,9 +33,14 @@ function actualizarContactoProgen() {
   const contactos = catalogo.contactosProgen[esExterior() ? "exterior" : "nacional"];
   llenarSelect(
     selectNombre,
-    contactos.map(function (c) {
-      return { valor: c.id, texto: c.nombre };
-    }),
+    contactos
+      .map(function (c) {
+        return { valor: c.id, texto: c.nombre };
+      })
+      /* Orden alfabético A-Z (ignora tildes y mayúsculas), sin importar el orden de la BD. */
+      .sort(function (a, b) {
+        return a.texto.localeCompare(b.texto, "es", { sensitivity: "base" });
+      }),
   );
 }
 
